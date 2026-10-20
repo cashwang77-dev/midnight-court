@@ -211,6 +211,7 @@ button:focus-visible,.ev:focus-visible,.box:focus-visible{outline:2px solid var(
 .reading a,.lawlink{color:var(--brass);text-decoration:none;font-weight:700}
 .reading a:hover,.lawlink:hover{text-decoration:underline}
 .lawlink{display:inline-block;margin-top:10px}
+.embedded body{padding-bottom:110px}
 .over{position:absolute;inset:0;z-index:10;background:rgba(10,4,4,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:16px}
 .over b{font-family:var(--f-display);font-weight:900;font-size:clamp(40px,8vw,72px);color:var(--seal);letter-spacing:.3em}
 .over p{margin:0;color:var(--muted)}
@@ -549,6 +550,8 @@ const LAWS = {
   renounce:{n:"刑法第27條第1項",t:"中止犯",a:"已著手於犯罪行為之實行，而因己意中止或防止其結果之發生者，減輕或免除其刑。結果之不發生，非防止行為所致，而行為人已盡力為防止行為者，亦同。",e:"犯人已經動手，卻出於自己的意思停下來，或積極阻止結果發生（例如下毒後自己叫救護車），可以減輕或免除其刑。這是法律給犯人回頭的機會。"}
 };
 const LAW_ORDER=Object.keys(LAWS);
+// 被嵌在部落格的「線上玩」網頁時，底部留白，避開手機的固定廣告
+if(/[?&]embed=1/.test(location.search))document.documentElement.classList.add('embedded');
 const BLOG_BASE='https://cashkingw.blogspot.com/2026/10/';
 // 每條法條在 Cash城 部落格的白話解說文章
 const BLOG={"presume":"154","burden":"161","perjury":"168","theft":"320","false":"169","embezzle":"336","leading":"1661","fraud":"339","forgery":"210","intent":"12","aid":"30","arson":"173","night":"1003","record":"1001","confession":"156","injury":"277","defense":"23","hearsay":"159","usury":"344","murder":"271","refuse":"181","objective":"2","corroborate":"1562","aggfraud":"ai3394","coperp":"28","hack":"358","data":"359","complaint":"363","dui":"1853","hitrun":"1854","negligence":"284","defame":"310","secret":"3151","wiretap":"29","bribe":"122","freeproof":"155","injurydeath":"2772","foresee":"17","justified":"22","attempt":"25","renounce":"27"};
