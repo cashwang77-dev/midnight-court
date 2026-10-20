@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://cashwang77-dev.github.io/midnight-court/sitemap.xml
