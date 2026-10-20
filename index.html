@@ -206,6 +206,11 @@ button:focus-visible,.ev:focus-visible,.box:focus-visible{outline:2px solid var(
 .stats div{display:flex;flex-direction:column}
 .stats small{color:var(--muted);font-size:12px;letter-spacing:.1em}
 .stats b{font-family:var(--f-display);font-size:30px}
+.reading{border:1px solid var(--line);background:var(--panel);padding:14px 18px;max-width:66ch;display:flex;flex-direction:column;gap:8px}
+.reading small{color:var(--muted);font-size:12px;letter-spacing:.1em}
+.reading a,.lawlink{color:var(--brass);text-decoration:none;font-weight:700}
+.reading a:hover,.lawlink:hover{text-decoration:underline}
+.lawlink{display:inline-block;margin-top:10px}
 .over{position:absolute;inset:0;z-index:10;background:rgba(10,4,4,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:16px}
 .over b{font-family:var(--f-display);font-weight:900;font-size:clamp(40px,8vw,72px);color:var(--seal);letter-spacing:.3em}
 .over p{margin:0;color:var(--muted)}
@@ -329,6 +334,7 @@ button:focus-visible,.ev:focus-visible,.box:focus-visible{outline:2px solid var(
       <p id="endText"></p>
     </div>
     <div class="stats" id="stats"></div>
+    <div class="reading" id="reading" hidden></div>
     <div class="rowbtn">
       <button class="go" id="btnNext" type="button">下一案</button>
       <button class="go ghost" id="btnList" type="button">案件列表</button>
@@ -543,6 +549,11 @@ const LAWS = {
   renounce:{n:"刑法第27條第1項",t:"中止犯",a:"已著手於犯罪行為之實行，而因己意中止或防止其結果之發生者，減輕或免除其刑。結果之不發生，非防止行為所致，而行為人已盡力為防止行為者，亦同。",e:"犯人已經動手，卻出於自己的意思停下來，或積極阻止結果發生（例如下毒後自己叫救護車），可以減輕或免除其刑。這是法律給犯人回頭的機會。"}
 };
 const LAW_ORDER=Object.keys(LAWS);
+const BLOG_BASE='https://cashkingw.blogspot.com/2026/10/';
+// 每條法條在 Cash城 部落格的白話解說文章
+const BLOG={"presume":"154","burden":"161","perjury":"168","theft":"320","false":"169","embezzle":"336","leading":"1661","fraud":"339","forgery":"210","intent":"12","aid":"30","arson":"173","night":"1003","record":"1001","confession":"156","injury":"277","defense":"23","hearsay":"159","usury":"344","murder":"271","refuse":"181","objective":"2","corroborate":"1562","aggfraud":"ai3394","coperp":"28","hack":"358","data":"359","complaint":"363","dui":"1853","hitrun":"1854","negligence":"284","defame":"310","secret":"3151","wiretap":"29","bribe":"122","freeproof":"155","injurydeath":"2772","foresee":"17","justified":"22","attempt":"25","renounce":"27"};
+const blogURL=k=>BLOG[k]?BLOG_BASE+BLOG[k]+'.html':'';
+
 
 /* ================= 案件 ================= */
 const WRONG=w=>[
@@ -2676,6 +2687,10 @@ function finish(){
   $('endText').textContent=C.verdict;
   const last=G.ci===CASES.length-1;
   $('stats').innerHTML=`<div><small>評價</small><b>${rank}</b></div><div><small>剩餘信任</small><b>${G.hp} / 5</b></div><div><small>追問次數</small><b>${G.press}</b></div><div><small>錯誤次數</small><b>${G.wrong}</b></div><div><small>法典收錄</small><b>${P.laws.length} / ${LAW_ORDER.length}</b></div>`;
+  // 延伸閱讀：本案用到的法條解說文章
+  const ks=[...new Set([...JSON.stringify(C).matchAll(/"law":"(\w+)"/g)].map(x=>x[1]))].filter(k=>BLOG[k]);
+  $('reading').innerHTML='<small>📖 延伸閱讀・本案法條白話解說</small>'+ks.map(k=>`<a href="${blogURL(k)}" target="_blank" rel="noopener">${LAWS[k].t}（${LAWS[k].n}）→</a>`).join('');
+  $('reading').hidden=!ks.length;
   $('btnNext').textContent=last?'全案終結':'下一案';
   $('btnNext').hidden=last;
   show('end');window.scrollTo({top:0});
@@ -2703,7 +2718,7 @@ $('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeEv()});
 $('mPresent').onclick=()=>present(selEv);
 
 /* ================= 法律小教室與法典 ================= */
-function lawHTML(k){const L=LAWS[k];return `<small>${L.n}</small><b>${L.t}</b><blockquote>${L.a}</blockquote><p>${L.e}</p>`}
+function lawHTML(k){const L=LAWS[k],u=blogURL(k);return `<small>${L.n}</small><b>${L.t}</b><blockquote>${L.a}</blockquote><p>${L.e}</p>`+(u?`<a class="lawlink" href="${u}" target="_blank" rel="noopener">📖 看完整白話解說 →</a>`:'')}
 function showLaw(k){
   const isNew=!P.laws.includes(k);
   if(isNew){P.laws.push(k);saveP()}
