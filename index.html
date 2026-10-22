@@ -372,7 +372,7 @@ button:focus-visible,.ev:focus-visible,.box:focus-visible{outline:2px solid var(
     <div class="career" id="career"></div>
     <div class="rowbtn"><button class="chip" id="btnAch" type="button">🏆 成就</button><button class="chip" id="btnReset" type="button">清除進度</button></div>
     <p style="text-align:center;margin:18px 0 6px"><a href="https://ko-fi.com/cash703856" target="_blank" rel="noopener" style="display:inline-block;padding:10px 22px;border:1px solid var(--brass);border-radius:4px;color:var(--brass);font-weight:700;letter-spacing:.12em;text-decoration:none">☕ 贊助作者</a><br><small style="color:var(--muted)">喜歡這個遊戲的話，歡迎請 Cash 喝杯咖啡</small></p>
-    <p class="note">人物圖與場景插畫以 Google Gemini 生成；部分人物為 Avataaars by Pablo Stanley（avataaars.com）。配樂與音效為原創合成。遊戲中的人物、公司與案件均為虛構。 <a href="privacy.html" style="color:var(--brass)">隱私權政策</a>　<a href="https://cashkingw.blogspot.com/" target="_blank" rel="noopener" style="color:var(--brass)">法條解說專欄</a></p>
+    <p class="note">遊戲中的人物、公司與案件均為虛構。 <a href="privacy.html" style="color:var(--brass)">隱私權政策</a>　<a href="https://cashkingw.blogspot.com/" target="_blank" rel="noopener" style="color:var(--brass)">法條解說專欄</a></p>
   </section>
 
   <section id="game" hidden style="display:flex;flex-direction:column;gap:12px">
@@ -512,7 +512,7 @@ function addRobe(svg,trim){
     `<path d="M98 197 L129 257 V282 M167 197 L136 257 V282" stroke="#000" stroke-opacity=".18" stroke-width="2" fill="none"/></g>`;
   return svg.slice(0,k)+robe+svg.slice(k);
 }
-// 人物立繪：Gemini 生成的表情圖（img/ch/<圖id>-<表情>.webp）；還沒有立繪的角色沿用 Avataaars
+// 人物立繪：表情圖（img/ch/<圖id>-<表情>.webp）；還沒有立繪的角色沿用 Avataaars
 // GitHub Pages 與本機測試用相對路徑，Apps Script 版從 GitHub Pages 讀圖
 const ASSET=/github\.io$|^localhost$|^127\./.test(location.hostname)?'':'https://cashwang77-dev.github.io/midnight-court/';
 const PORT={"an":["angry","happy","normal","sad","shock","smug","sweat","think"],"bo":["angry","happy","normal","sad","shock","smug","sweat","think"],"chen":["angry","break","happy","normal","sad","shock","smug","sweat"],"dai":["angry","break","happy","normal","sad","shock","smug","sweat"],"du":["angry","break","happy","normal","sad","shock","smug","sweat"],"fan":["happy","normal","sad","shock"],"fang":["angry","break","happy","normal","sad","shock","smug","sweat"],"fu":["angry","break","happy","normal","sad","shock","smug","sweat"],"ge":["angry","break","happy","normal","sad","shock","smug","sweat"],"guo":["angry","break","happy","normal","sad","shock","smug","sweat"],"he":["happy","normal","sad","shock"],"jiang":["normal","sad","shock","sweat"],"judge":["angry","gavel","happy","normal","sad","shock","sweat","think"],"kang":["angry","break","happy","normal","sad","shock","smug","sweat"],"lai":["angry","break","happy","normal","sad","shock","smug","sweat"],"lin":["happy","normal","sad","shock"],"liu":["angry","break","happy","normal","sad","shock","sweat","think"],"lu":["angry","break","happy","normal","sad","shock","smug","sweat"],"luo":["angry","normal","sad","shock"],"ma":["angry","break","happy","normal","sad","shock","smug","sweat"],"mei":["normal","sad","shock","sweat"],"pros":["angry","happy","normal","point","sad","shock","smug","sweat"],"pros_suit":["angry","happy","normal","sad","shock","smug","sweat","think"],"qiu":["angry","break","happy","normal","sad","shock","smug","sweat"],"shen":["angry","break","happy","normal","sad","shock","smug","sweat"],"tsai":["angry","break","happy","normal","sad","shock","smug","sweat"],"wen":["angry","break","happy","normal","sad","shock","smug","sweat"],"wu":["angry","happy","normal","sad","shock","smug","sweat","think"],"xiang":["angry","break","happy","normal","sad","shock","smug","sweat"],"zhe":["angry","happy","normal","sad","shock","smug","sweat","think"],"zheng":["happy","normal","sad","shock"],"zhong":["angry","normal","point","sad","shock","smug","sweat","think"],"zhou":["angry","happy","normal","point","shock","smug","sweat","think"],"zhou_suit":["angry","happy","normal","point","shock","smug","sweat","think"],"zhuo":["normal","sad","shock","sweat"]};
@@ -526,7 +526,7 @@ function portKey(id,mood,pos){
   return k+'-'+m;
 }
 const portURL=k=>`${ASSET}img/ch/${k}.webp`;
-// 場景背景：Gemini 生成（img/bg/<場景>.webp）；數字＝桌面上緣在圖中的高度比例，下方切出來當前景蓋住人物下緣
+// 場景背景（img/bg/<場景>.webp）；數字＝桌面上緣在圖中的高度比例，下方切出來當前景蓋住人物下緣
 const BGIMG={bench:.83,pros:.743,def:.773,stand:.668,lobby:0,office:0};
 const bgURL=p=>`${ASSET}img/bg/${p}.webp`;
 const bgHTML=p=>p in BGIMG?`<img class="bgimg" src="${bgURL(p)}" alt="">`:BG[p];
