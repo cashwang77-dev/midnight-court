@@ -503,7 +503,11 @@ const CH = {
   xu:{name:'許芷晴',pos:'stand',plate:'被告'},
   dong:{name:'董國樑',pos:'stand',plate:'告訴人'},
   ye:{name:'葉阿珠',pos:'stand',plate:'被告'},
-  tang:{name:'唐雅婷',pos:'stand',plate:'被害人'}
+  tang:{name:'唐雅婷',pos:'stand',plate:'被害人'},
+  qin:{name:'秦雨柔',pos:'stand',plate:'被告'},
+  gao:{name:'高志明',pos:'stand',plate:'告訴人'},
+  lan:{name:'藍浩宇',pos:'stand',plate:'被告'},
+  hong:{name:'洪子軒',pos:'stand',plate:'告訴人'}
 };
 // 台灣法袍：法官藍色滾邊、檢察官紫色滾邊、律師白色滾邊（只在法庭內穿）
 const ROBE={judge:'#3a74d0',pros:'#8a4cc2',zhong:'#8a4cc2',zhou:'#f2efe6'};
@@ -524,7 +528,7 @@ function addRobe(svg,trim){
 // 人物立繪：表情圖（img/ch/<圖id>-<表情>.webp）；還沒有立繪的角色沿用 Avataaars
 // GitHub Pages 與本機測試用相對路徑，Apps Script 版從 GitHub Pages 讀圖
 const ASSET=/github\.io$|^localhost$|^127\./.test(location.hostname)?'':'https://cashwang77-dev.github.io/midnight-court/';
-const PORT={"an":["angry","happy","normal","sad","shock","smug","sweat","think"],"bo":["angry","happy","normal","sad","shock","smug","sweat","think"],"chen":["angry","break","happy","normal","sad","shock","smug","sweat"],"dai":["angry","break","happy","normal","sad","shock","smug","sweat"],"dong":["angry","normal","shock","smug"],"du":["angry","break","happy","normal","sad","shock","smug","sweat"],"fan":["happy","normal","sad","shock"],"fang":["angry","break","happy","normal","sad","shock","smug","sweat"],"fu":["angry","break","happy","normal","sad","shock","smug","sweat"],"ge":["angry","break","happy","normal","sad","shock","smug","sweat"],"guo":["angry","break","happy","normal","sad","shock","smug","sweat"],"he":["happy","normal","sad","shock"],"jian":["happy","normal","sad","sweat"],"jiang":["normal","sad","shock","sweat"],"judge":["angry","gavel","happy","normal","sad","shock","sweat","think"],"kang":["angry","break","happy","normal","sad","shock","smug","sweat"],"lai":["angry","break","happy","normal","sad","shock","smug","sweat"],"lin":["happy","normal","sad","shock"],"liu":["angry","break","happy","normal","sad","shock","sweat","think"],"lu":["angry","break","happy","normal","sad","shock","smug","sweat"],"luo":["angry","normal","sad","shock"],"ma":["angry","break","happy","normal","sad","shock","smug","sweat"],"mei":["normal","sad","shock","sweat"],"pros":["angry","happy","normal","point","sad","shock","smug","sweat"],"pros_suit":["angry","happy","normal","sad","shock","smug","sweat","think"],"qiu":["angry","break","happy","normal","sad","shock","smug","sweat"],"shen":["angry","break","happy","normal","sad","shock","smug","sweat"],"tang":["angry","normal","sad","shock"],"tsai":["angry","break","happy","normal","sad","shock","smug","sweat"],"wen":["angry","break","happy","normal","sad","shock","smug","sweat"],"wu":["angry","happy","normal","sad","shock","smug","sweat","think"],"xiang":["angry","break","happy","normal","sad","shock","smug","sweat"],"xu":["happy","normal","sad","sweat"],"ye":["happy","normal","sad","sweat"],"yu":["angry","normal","shock","sweat"],"zhe":["angry","happy","normal","sad","shock","smug","sweat","think"],"zheng":["happy","normal","sad","shock"],"zhong":["angry","normal","point","sad","shock","smug","sweat","think"],"zhou":["angry","happy","normal","point","shock","smug","sweat","think"],"zhou_suit":["angry","happy","normal","point","shock","smug","sweat","think"],"zhuo":["normal","sad","shock","sweat"]};
+const PORT={"an":["angry","happy","normal","sad","shock","smug","sweat","think"],"bo":["angry","happy","normal","sad","shock","smug","sweat","think"],"chen":["angry","break","happy","normal","sad","shock","smug","sweat"],"dai":["angry","break","happy","normal","sad","shock","smug","sweat"],"dong":["angry","normal","shock","smug"],"du":["angry","break","happy","normal","sad","shock","smug","sweat"],"fan":["happy","normal","sad","shock"],"fang":["angry","break","happy","normal","sad","shock","smug","sweat"],"fu":["angry","break","happy","normal","sad","shock","smug","sweat"],"gao":["angry","normal","shock","smug"],"ge":["angry","break","happy","normal","sad","shock","smug","sweat"],"guo":["angry","break","happy","normal","sad","shock","smug","sweat"],"he":["happy","normal","sad","shock"],"hong":["angry","normal","shock","smug"],"jian":["happy","normal","sad","sweat"],"jiang":["normal","sad","shock","sweat"],"judge":["angry","gavel","happy","normal","sad","shock","sweat","think"],"kang":["angry","break","happy","normal","sad","shock","smug","sweat"],"lai":["angry","break","happy","normal","sad","shock","smug","sweat"],"lan":["happy","normal","sad","sweat"],"lin":["happy","normal","sad","shock"],"liu":["angry","break","happy","normal","sad","shock","sweat","think"],"lu":["angry","break","happy","normal","sad","shock","smug","sweat"],"luo":["angry","normal","sad","shock"],"ma":["angry","break","happy","normal","sad","shock","smug","sweat"],"mei":["normal","sad","shock","sweat"],"pros":["angry","happy","normal","point","sad","shock","smug","sweat"],"pros_suit":["angry","happy","normal","sad","shock","smug","sweat","think"],"qin":["happy","normal","sad","sweat"],"qiu":["angry","break","happy","normal","sad","shock","smug","sweat"],"shen":["angry","break","happy","normal","sad","shock","smug","sweat"],"tang":["angry","normal","sad","shock"],"tsai":["angry","break","happy","normal","sad","shock","smug","sweat"],"wen":["angry","break","happy","normal","sad","shock","smug","sweat"],"wu":["angry","happy","normal","sad","shock","smug","sweat","think"],"xiang":["angry","break","happy","normal","sad","shock","smug","sweat"],"xu":["happy","normal","sad","sweat"],"ye":["happy","normal","sad","sweat"],"yu":["angry","normal","shock","sweat"],"zhe":["angry","happy","normal","sad","shock","smug","sweat","think"],"zheng":["happy","normal","sad","shock"],"zhong":["angry","normal","point","sad","shock","smug","sweat","think"],"zhou":["angry","happy","normal","point","shock","smug","sweat","think"],"zhou_suit":["angry","happy","normal","point","shock","smug","sweat","think"],"zhuo":["normal","sad","shock","sweat"]};
 const MOOD_FALL={break:['shock','sweat'],smug:['happy'],point:['angry'],gavel:['angry'],think:['normal'],sweat:['shock'],angry:['shock']};
 function portKey(id,mood,pos){
   let k=id;
@@ -2762,6 +2766,170 @@ const CASES=[
  }
 },
 
+{id:'m4',mini:1,no:'116年度易字第1415號',name:'借錢不還',charge:'詐欺取財（刑法第339條）',def:'秦雨柔',
+ blog:'https://cashkingw.blogspot.com/2026/10/_757.html',blogT:'借錢不還可以告詐欺嗎？民事求償與刑事告訴的差別',
+ sum:'向前同事借了二十萬，還了三期之後被公司資遣、繳不出錢。對方一狀告她詐欺：「她一開始就是騙我的。」',
+ verdict:'被告借款時確有母親手術之需，借款後依約清償三期，嗣因遭資遣始無力清償，難認借款時即有不法所有意圖或施用詐術。本件屬民事債務糾紛，被告秦雨柔無罪。',
+ ev:{
+  iou4:{n:'借據',i:'doc',d:'3/1 秦雨柔向高志明借款 NT$200,000。\n約定每月 1 日還 NT$20,000，10 期還清。'},
+  transfer4:{n:'還款紀錄',i:'money',d:'4/1、5/1、6/1 各匯款 NT$20,000 給高志明，共 NT$60,000。\n7/1 起沒有匯款。'},
+  layoff4:{n:'資遣通知書',i:'mail',d:'6/20 公司歇業，秦雨柔遭資遣。'},
+  hosp4:{n:'醫院收據',i:'med',d:'2/27 秦母 心導管手術\n自費金額 NT$186,000。'},
+  chat4:{n:'LINE 對話紀錄',i:'phone',d:'7/3 秦：「我被資遣了，可以先緩兩個月嗎？我一定會還。」\n7/3 高：「不還就告你詐欺。」'}
+ },
+ start:['iou4','transfer4','layoff4','chat4'],
+ n:{
+ intro:[
+  {scene:'十一月一日　上午十時',sub:'王小棒律師事務所'},
+  {loc:'office'},
+  {c:'qin',m:'sad',t:'我真的有打算還……只是公司突然倒了。'},
+  {c:'an',t:'秦雨柔小姐，跟前同事借了二十萬。還了三期以後被資遣，對方告她詐欺。'},
+  {c:'zhou',t:'欠錢不還，通常是民事問題——債主可以聲請支付命令、調解、起訴要錢。'},
+  {law:'fraud'},
+  {c:'zhou',t:'詐欺罪要的是：一開始就用謊話騙人交出錢，而且根本不打算還。借錢時的「故意」才是重點。'},
+  {law:'intent'},
+  {c:'qin',m:'sweat',t:'可是……他說我借錢時講的理由，全部都是騙人的。'},
+  {loc:null},
+  {scene:'十一月十五日　上午十時',sub:'第六法庭'},
+  {c:'judge',t:'現在開庭審理被告秦雨柔詐欺案。'},
+  {c:'pros',t:'檢方傳喚告訴人，高志明。'},
+  {c:'gao',m:'angry',t:'高志明。她拿了我二十萬就跑了，這不是詐欺是什麼？'},
+  {c:'judge',t:'證人，請就借款經過作證。'},
+  {go:'t1'}
+ ],
+ t1:{cross:1,title:'二十萬',w:'gao',st:[
+  {t:'她跟我借了二十萬，說好分十個月還。',press:[
+    {c:'zhou',t:'有寫借據嗎？'},
+    {c:'gao',t:'當然有。'}]},
+  {t:'結果到現在，她一毛錢都沒有還過！',contra:'transfer4',solve:'t1s',press:[
+    {c:'zhou',t:'一毛都沒有？'},
+    {c:'gao',m:'smug',t:'一毛都沒有。'},
+    {c:'an',t:'律師，她的帳戶紀錄……'}]},
+  {t:'我打電話給她，她就不接了。',press:[
+    {c:'zhou',t:'她完全沒有聯絡你？'},
+    {c:'gao',m:'sweat',t:'……有傳過一次 LINE 啦。'}]}
+ ]},
+ t1s:[
+  {banner:'異議！'},
+  {c:'zhou',t:'一毛錢都沒還？請看還款紀錄。'},
+  {c:'zhou',m:'angry',t:'四月、五月、六月，每個月一號，被告都準時匯了兩萬元給你——一共六萬！',flash:1},
+  {c:'gao',m:'shock',t:'……！',shake:1},
+  {c:'gao',m:'angry',t:'那、那是為了讓我放心的手段！她借錢時說媽媽要開刀，根本是編出來的！'},
+  {c:'judge',t:'證人，請就借款的理由作證。'},
+  {go:'t2'}
+ ],
+ t2:{cross:1,title:'借錢的理由',w:'gao',st:[
+  {t:'她說媽媽要開刀，那都是騙我的。',contra:'hosp4',solve:'t2s',press:[
+    {c:'zhou',t:'你怎麼知道是騙你的？'},
+    {c:'gao',m:'smug',t:'她媽媽好好的，我在臉書上看到她們去逛街。'},
+    {c:'an',t:'律師！秦小姐把醫院的收據帶來了！'},
+    {give:'hosp4'}]},
+  {t:'她根本就是一開始就不打算還。',press:[
+    {c:'zhou',t:'一開始不打算還，為什麼還了三期？'},
+    {c:'gao',m:'sweat',t:'……'}]}
+ ]},
+ t2s:[
+  {banner:'異議！'},
+  {c:'zhou',t:'媽媽開刀是騙人的？請看醫院收據。'},
+  {c:'zhou',m:'angry',t:'二月二十七日，被告母親做了心導管手術，自費十八萬六千元——就在她跟你借錢的前兩天！',flash:1},
+  {c:'gao',m:'shock',t:'這……',shake:1,flash:1},
+  {c:'zhou',t:'手術後恢復良好，當然可以出門逛街。'},
+  {c:'zhou',t:'被告借錢的理由是真的，借了以後也照約定還錢，是六月被資遣之後才付不出來。'},
+  {choice:{c:'judge',q:'辯方，借錢沒還，什麼情況才會構成詐欺？',opts:[
+    {t:'只要借了錢沒還，就是詐欺',r:'沒有還錢，原則上是民事上的債務不履行。'},
+    {t:'借錢當時就用謊話騙錢、根本不打算還，才是詐欺',ok:1},
+    {t:'超過一年沒還，就會變成詐欺',r:'時間長短不是判斷標準。'}]}},
+  {c:'gao',m:'sweat',t:'……我只是想快點把錢拿回來。'},
+  {c:'judge',t:'本庭宣判。被告秦雨柔——'},
+  {banner:'無罪',calm:1},
+  {loc:'lobby'},
+  {c:'qin',m:'happy',t:'謝謝律師。……剩下的錢，我找到新工作就會繼續還。'},
+  {c:'zhou',t:'欠的錢還是要還。兩個人可以去調解，談一個做得到的分期。'},
+  {c:'an',m:'happy',t:'借錢不還該怎麼要回來、什麼時候才算詐欺，部落格那篇文章都有整理喔！'},
+  {end:1}
+ ]
+ }
+},
+{id:'m5',mini:1,no:'116年度易字第1520號',name:'私訊裡的一句話',charge:'公然侮辱（刑法第309條）',def:'藍浩宇',
+ blog:'https://cashkingw.blogspot.com/2026/10/_55.html',blogT:'被罵可以告嗎？公然侮辱和誹謗的差別一次看懂',
+ sum:'大學生傳了一句「你就是個詐騙仔，垃圾」給實況主。實況主說他是在三百人的粉絲群裡公開罵人，告他公然侮辱。',
+ verdict:'被告所為之言論係於一對一私人訊息中傳送，僅告訴人一人得以知悉，不具「公然」要件；事後係告訴人自行轉貼至群組。被告藍浩宇無罪。',
+ ev:{
+  shot5:{n:'告訴人提出的截圖',i:'phone',d:'「你就是個詐騙仔，垃圾」\n傳送時間 9/12 23:41\n畫面上方顯示「粉絲群（312）」。'},
+  export5:{n:'對話紀錄匯出檔',i:'doc',d:'LINE 官方匯出的完整紀錄：\n9/12 23:41 藍浩宇 → 洪子軒（一對一聊天）\n「你就是個詐騙仔，垃圾」\n同一時間，粉絲群內沒有藍浩宇的任何發言。'},
+  notice5:{n:'粉絲群記事本',i:'card',d:'9/13 00:05 洪子軒發布：\n「大家看看這個人怎麼罵我」\n附上一張對話截圖。'},
+  prize5:{n:'抽獎紀錄',i:'money',d:'8/20 洪子軒直播抽獎，得獎者：藍浩宇。\n獎品：電競耳機一副。截至 9/12 仍未寄出。'}
+ },
+ start:['shot5','prize5'],
+ n:{
+ intro:[
+  {scene:'十一月三日　下午三時',sub:'王小棒律師事務所'},
+  {loc:'office'},
+  {c:'lan',m:'sad',t:'抽獎說好要寄的耳機一直沒來，我一氣之下罵了他……'},
+  {c:'an',t:'藍浩宇同學。罵了實況主「詐騙仔、垃圾」，被告公然侮辱。'},
+  {c:'zhou',t:'公然侮辱，重點在「公然」——要在不特定或多數人都看得到、聽得到的情況下罵人才算。'},
+  {c:'zhou',t:'憲法法庭在 2024 年的判決也限縮了這條的適用：不是每一句難聽的話都要處罰。'},
+  {law:'complaint'},
+  {c:'lan',m:'sweat',t:'可是……他說我是在三百人的群組裡罵的。'},
+  {loc:null},
+  {scene:'十一月二十日　上午十時',sub:'第二法庭'},
+  {c:'judge',t:'現在開庭審理被告藍浩宇公然侮辱案。'},
+  {c:'pros',t:'檢方傳喚告訴人，洪子軒。'},
+  {c:'hong',m:'angry',t:'洪子軒。他在我的粉絲群裡當著三百多人罵我，我的名聲都毀了！'},
+  {c:'judge',t:'證人，請就事發經過作證。'},
+  {go:'t1'}
+ ],
+ t1:{cross:1,title:'粉絲群',w:'hong',st:[
+  {t:'他在三百多人的粉絲群裡，公開罵我是詐騙仔。',contra:'export5',solve:'t1s',press:[
+    {c:'zhou',t:'你提出的只有截圖嗎？'},
+    {c:'hong',m:'smug',t:'截圖就夠清楚了吧。'},
+    {c:'an',t:'律師，我們向 LINE 調了完整的對話紀錄……'},
+    {give:'export5'}]},
+  {t:'他是因為嫉妒我的人氣才罵我。',press:[
+    {c:'zhou',t:'他罵你之前，你們之間發生過什麼事？'},
+    {c:'hong',m:'sweat',t:'……沒、沒什麼。'}]}
+ ]},
+ t1s:[
+  {banner:'異議！'},
+  {c:'zhou',t:'在粉絲群裡公開罵你？請看完整的對話紀錄匯出檔。'},
+  {c:'zhou',m:'angry',t:'那句話是在一對一的私訊裡傳給你的！同一時間，粉絲群裡被告一句話都沒說！',flash:1},
+  {c:'hong',m:'shock',t:'……！',shake:1},
+  {c:'hong',m:'angry',t:'就、就算是私訊，截圖上面明明寫著「粉絲群」！大家都看到了！'},
+  {c:'judge',t:'證人，請說明截圖是怎麼出現在群組裡的。'},
+  {go:'t2'}
+ ],
+ t2:{cross:1,title:'截圖',w:'hong',st:[
+  {t:'群組裡的人都看到了那句話，是他害我丟臉。',contra:'notice5',solve:'t2s',press:[
+    {c:'zhou',t:'群組裡的人是怎麼看到的？'},
+    {c:'hong',m:'sweat',t:'就……有人貼出來啊。'},
+    {c:'an',t:'律師，群組的記事本留有紀錄！'},
+    {give:'notice5'}]},
+  {t:'我從來沒有做過對不起粉絲的事。',press:[
+    {c:'zhou',t:'抽獎的耳機寄出去了嗎？'},
+    {c:'hong',m:'sweat',t:'那個……最近比較忙。'}]}
+ ]},
+ t2s:[
+  {banner:'異議！'},
+  {c:'zhou',t:'有人貼出來？請看粉絲群的記事本。'},
+  {c:'zhou',m:'angry',t:'九月十三日凌晨，把截圖貼進三百人群組的——正是你自己，洪子軒！',flash:1},
+  {c:'hong',m:'shock',t:'嗚啊——！',shake:1,flash:1},
+  {c:'hong',m:'sweat',t:'……我只是想讓粉絲站在我這邊。耳機的事，我會補寄。'},
+  {choice:{c:'judge',q:'辯方，被告的行為為什麼不構成公然侮辱？',opts:[
+    {t:'因為「詐騙仔」不算罵人的話',r:'問題不在用詞，而在「公然」。'},
+    {t:'因為是一對一私訊，只有告訴人看得到，不符合「公然」',ok:1},
+    {t:'因為對方是網紅，本來就要接受批評',r:'公眾人物也有名譽權。'}]}},
+  {c:'zhou',t:'私訊只有兩個人看得到。是告訴人自己把它公開的，不能算在被告頭上。'},
+  {c:'judge',t:'本庭宣判。被告藍浩宇——'},
+  {banner:'無罪',calm:1},
+  {loc:'lobby'},
+  {c:'lan',m:'happy',t:'謝謝律師……以後生氣的時候，我會先冷靜一下再打字。'},
+  {c:'zhou',t:'不構成犯罪，不代表罵人沒關係。私訊辱罵，對方還是可能請求民事賠償。'},
+  {c:'an',m:'happy',t:'公然侮辱和誹謗差在哪裡、被罵了該怎麼辦，部落格那篇文章有完整整理喔！'},
+  {end:1}
+ ]
+ }
+},
+
 ];
 
 /* ================= 進度（僅存於本機瀏覽器） ================= */
@@ -2913,7 +3081,7 @@ for(const k in SFXF){const syn=sfx[k];sfx[k]=(...a)=>{
     if(k==='combo')s.playbackRate.value=Math.pow(1.06,Math.min(a[0]||1,8)-1);   // 連擊越多音越高
     s.connect(g).connect(sfxBus);s.start(t)});
 }}
-const FEMALE=new Set(['an','lin','zhuo','jiang','pros','zheng','fan','shen','mei','xu','ye','tang']);
+const FEMALE=new Set(['an','lin','zhuo','jiang','pros','zheng','fan','shen','mei','xu','ye','tang','qin']);
 
 /* ================= 引擎 ================= */
 const $=id=>document.getElementById(id);
