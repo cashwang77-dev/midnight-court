@@ -2486,6 +2486,7 @@ function ensureAC(){
       musicBus=actx.createGain();musicBus.gain.value=musicOn?.34:0;musicBus.connect(lp).connect(actx.destination);
       sfxBus=actx.createGain();sfxBus.gain.value=1;sfxBus.connect(actx.destination);
       noiseBuf=actx.createBuffer(1,actx.sampleRate*.5,actx.sampleRate);
+      setTimeout(sfxLoad,0);
       const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
     }
     if(actx.state==='suspended')actx.resume();
@@ -2603,6 +2604,19 @@ const sfx={
   stamp(){fxPlay(t=>{osc('sine',120,t,.25,.5,sfxBus,50);noise(t,.2,.35,sfxBus,'lowpass',700)})},
   guilty(){fxPlay(t=>{osc('sawtooth',110,t,1.2,.1,sfxBus,55);osc('sawtooth',131,t,1.2,.08,sfxBus,65);noise(t,.5,.3,sfxBus,'lowpass',400)})}
 };
+// 音效音檔（Gemini 生成，切好放 audio/sfx/）：載入完成前、或載入失敗時，退回上面的合成音；數字＝音量
+const SFXF=/*SFXF*/{"gavel":0.9,"boom":0.9,"bad":0.8,"press":0.8,"get":0.7,"law":0.6,"page":0.9,"swoosh":0.7,"crash":0.9,"combo":0.6,"ach":0.6,"guilty":0.9};
+const sfxBuf={};
+function sfxLoad(){
+  if(sfxLoad.done||!actx)return;sfxLoad.done=1;
+  for(const k in SFXF)fetch(ASSET+'audio/sfx/'+k+'.mp3').then(r=>r.ok?r.arrayBuffer():Promise.reject()).then(b=>new Promise((ok,ng)=>actx.decodeAudioData(b,ok,ng))).then(ab=>{sfxBuf[k]=ab}).catch(()=>{});
+}
+for(const k in SFXF){const syn=sfx[k];sfx[k]=(...a)=>{
+  const b=sfxBuf[k];if(!b)return syn(...a);
+  fxPlay(t=>{const s=actx.createBufferSource(),g=actx.createGain();s.buffer=b;g.gain.value=SFXF[k];
+    if(k==='combo')s.playbackRate.value=Math.pow(1.06,Math.min(a[0]||1,8)-1);   // 連擊越多音越高
+    s.connect(g).connect(sfxBus);s.start(t)});
+}}
 const FEMALE=new Set(['an','lin','zhuo','jiang','pros','zheng','fan','shen','mei']);
 
 /* ================= 引擎 ================= */
