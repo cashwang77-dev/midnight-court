@@ -494,7 +494,14 @@ const CH = {
   luo:{name:'羅志剛',pos:'stand',plate:'被告'},
   kang:{name:'康偉',pos:'stand',plate:'證人'},
   mei:{name:'柯美玲',pos:'stand',plate:'被告'},
-  xiang:{name:'柯子翔',pos:'stand',plate:'證人'}
+  xiang:{name:'柯子翔',pos:'stand',plate:'證人'},
+  // 生活法律小案件
+  jian:{name:'簡家豪',pos:'stand',plate:'被告'},
+  yu:{name:'余明德',pos:'stand',plate:'證人'},
+  xu:{name:'許芷晴',pos:'stand',plate:'被告'},
+  dong:{name:'董國樑',pos:'stand',plate:'告訴人'},
+  ye:{name:'葉阿珠',pos:'stand',plate:'被告'},
+  tang:{name:'唐雅婷',pos:'stand',plate:'被害人'}
 };
 // 台灣法袍：法官藍色滾邊、檢察官紫色滾邊、律師白色滾邊（只在法庭內穿）
 const ROBE={judge:'#3a74d0',pros:'#8a4cc2',zhong:'#8a4cc2',zhou:'#f2efe6'};
@@ -515,7 +522,7 @@ function addRobe(svg,trim){
 // 人物立繪：表情圖（img/ch/<圖id>-<表情>.webp）；還沒有立繪的角色沿用 Avataaars
 // GitHub Pages 與本機測試用相對路徑，Apps Script 版從 GitHub Pages 讀圖
 const ASSET=/github\.io$|^localhost$|^127\./.test(location.hostname)?'':'https://cashwang77-dev.github.io/midnight-court/';
-const PORT={"an":["angry","happy","normal","sad","shock","smug","sweat","think"],"bo":["angry","happy","normal","sad","shock","smug","sweat","think"],"chen":["angry","break","happy","normal","sad","shock","smug","sweat"],"dai":["angry","break","happy","normal","sad","shock","smug","sweat"],"du":["angry","break","happy","normal","sad","shock","smug","sweat"],"fan":["happy","normal","sad","shock"],"fang":["angry","break","happy","normal","sad","shock","smug","sweat"],"fu":["angry","break","happy","normal","sad","shock","smug","sweat"],"ge":["angry","break","happy","normal","sad","shock","smug","sweat"],"guo":["angry","break","happy","normal","sad","shock","smug","sweat"],"he":["happy","normal","sad","shock"],"jiang":["normal","sad","shock","sweat"],"judge":["angry","gavel","happy","normal","sad","shock","sweat","think"],"kang":["angry","break","happy","normal","sad","shock","smug","sweat"],"lai":["angry","break","happy","normal","sad","shock","smug","sweat"],"lin":["happy","normal","sad","shock"],"liu":["angry","break","happy","normal","sad","shock","sweat","think"],"lu":["angry","break","happy","normal","sad","shock","smug","sweat"],"luo":["angry","normal","sad","shock"],"ma":["angry","break","happy","normal","sad","shock","smug","sweat"],"mei":["normal","sad","shock","sweat"],"pros":["angry","happy","normal","point","sad","shock","smug","sweat"],"pros_suit":["angry","happy","normal","sad","shock","smug","sweat","think"],"qiu":["angry","break","happy","normal","sad","shock","smug","sweat"],"shen":["angry","break","happy","normal","sad","shock","smug","sweat"],"tsai":["angry","break","happy","normal","sad","shock","smug","sweat"],"wen":["angry","break","happy","normal","sad","shock","smug","sweat"],"wu":["angry","happy","normal","sad","shock","smug","sweat","think"],"xiang":["angry","break","happy","normal","sad","shock","smug","sweat"],"zhe":["angry","happy","normal","sad","shock","smug","sweat","think"],"zheng":["happy","normal","sad","shock"],"zhong":["angry","normal","point","sad","shock","smug","sweat","think"],"zhou":["angry","happy","normal","point","shock","smug","sweat","think"],"zhou_suit":["angry","happy","normal","point","shock","smug","sweat","think"],"zhuo":["normal","sad","shock","sweat"]};
+const PORT={"an":["angry","happy","normal","sad","shock","smug","sweat","think"],"bo":["angry","happy","normal","sad","shock","smug","sweat","think"],"chen":["angry","break","happy","normal","sad","shock","smug","sweat"],"dai":["angry","break","happy","normal","sad","shock","smug","sweat"],"dong":["angry","normal","shock","smug"],"du":["angry","break","happy","normal","sad","shock","smug","sweat"],"fan":["happy","normal","sad","shock"],"fang":["angry","break","happy","normal","sad","shock","smug","sweat"],"fu":["angry","break","happy","normal","sad","shock","smug","sweat"],"ge":["angry","break","happy","normal","sad","shock","smug","sweat"],"guo":["angry","break","happy","normal","sad","shock","smug","sweat"],"he":["happy","normal","sad","shock"],"jian":["happy","normal","sad","sweat"],"jiang":["normal","sad","shock","sweat"],"judge":["angry","gavel","happy","normal","sad","shock","sweat","think"],"kang":["angry","break","happy","normal","sad","shock","smug","sweat"],"lai":["angry","break","happy","normal","sad","shock","smug","sweat"],"lin":["happy","normal","sad","shock"],"liu":["angry","break","happy","normal","sad","shock","sweat","think"],"lu":["angry","break","happy","normal","sad","shock","smug","sweat"],"luo":["angry","normal","sad","shock"],"ma":["angry","break","happy","normal","sad","shock","smug","sweat"],"mei":["normal","sad","shock","sweat"],"pros":["angry","happy","normal","point","sad","shock","smug","sweat"],"pros_suit":["angry","happy","normal","sad","shock","smug","sweat","think"],"qiu":["angry","break","happy","normal","sad","shock","smug","sweat"],"shen":["angry","break","happy","normal","sad","shock","smug","sweat"],"tang":["angry","normal","sad","shock"],"tsai":["angry","break","happy","normal","sad","shock","smug","sweat"],"wen":["angry","break","happy","normal","sad","shock","smug","sweat"],"wu":["angry","happy","normal","sad","shock","smug","sweat","think"],"xiang":["angry","break","happy","normal","sad","shock","smug","sweat"],"xu":["happy","normal","sad","sweat"],"ye":["happy","normal","sad","sweat"],"yu":["angry","normal","shock","sweat"],"zhe":["angry","happy","normal","sad","shock","smug","sweat","think"],"zheng":["happy","normal","sad","shock"],"zhong":["angry","normal","point","sad","shock","smug","sweat","think"],"zhou":["angry","happy","normal","point","shock","smug","sweat","think"],"zhou_suit":["angry","happy","normal","point","shock","smug","sweat","think"],"zhuo":["normal","sad","shock","sweat"]};
 const MOOD_FALL={break:['shock','sweat'],smug:['happy'],point:['angry'],gavel:['angry'],think:['normal'],sweat:['shock'],angry:['shock']};
 function portKey(id,mood,pos){
   let k=id;
@@ -2464,7 +2471,294 @@ const CASES=[
   {end:1}
  ]
  }
-}
+},
+/* ---------- 生活法律小案件（每案約 5 分鐘；mini:1 不計入主線解鎖與全破成就，隨時可玩；blog＝對應的部落格文章） ---------- */
+{id:'m1',mini:1,no:'116年度易字第1102號',name:'撿到的錢包',charge:'侵占遺失物（刑法第337條）',def:'簡家豪',
+ blog:'https://cashkingw.blogspot.com/2026/10/_3.html',blogT:'撿到錢包不還犯法嗎？侵占遺失物與拾得報酬',
+ sum:'外送員在便利商店門口撿到錢包，送到派出所。失主卻說錢包裡少了兩萬元，一口咬定是他拿走的。',
+ verdict:'被告拾得皮夾後二十餘分鐘即送交派出所，皮夾內財物與失主當晚提領之金額相符，被告並無不法所有意圖。被告簡家豪無罪。',
+ ev:{
+  cctv1:{n:'超商門口監視器',i:'cam',d:'10/5 21:12 余明德走出超商，皮夾從外套口袋掉在地上。\n21:15 簡家豪停車時撿起皮夾，四處張望。\n21:18 簡家豪騎車往派出所方向離開。'},
+  receipt1:{n:'拾得物收據',i:'doc',d:'中山派出所　拾得物收據\n10/5 21:40　拾得人：簡家豪\n皮夾1只：現金NT$3,200、信用卡2張、身分證1張。'},
+  atm1:{n:'余明德的提款紀錄',i:'money',d:'10/5 20:50　ATM 提款 NT$3,000。\n當天沒有其他提款紀錄。'},
+  mahjong:{n:'麻將館的消費單',i:'doc',d:'10/5 17:00–20:30　余先生　桌費 NT$400。\n（從余明德的外套口袋裡找到的）'}
+ },
+ start:['cctv1','receipt1','atm1'],
+ n:{
+ intro:[
+  {scene:'十月二十日　下午四時',sub:'王小棒律師事務所'},
+  {loc:'office'},
+  {c:'jian',m:'sad',t:'律師……我只是撿到錢包，送去派出所而已，為什麼會被告？'},
+  {c:'an',t:'簡家豪先生，外送員。檢方起訴他侵占遺失物，失主說錢包裡的兩萬元不見了。'},
+  {c:'zhou',t:'撿到別人的東西據為己有，叫做「侵占遺失物」，是刑法第三百三十七條。'},
+  {c:'zhou',t:'重點是「意圖為自己不法所有」。如果撿到就送去警察局，根本沒有想占為己有的意思。'},
+  {law:'presume'},
+  {c:'jian',m:'sweat',t:'我真的一塊錢都沒拿！我送到派出所的時候，警察當場點過錢的！'},
+  {c:'an',t:'可是失主堅持，錢包裡本來有兩萬三千塊……'},
+  {loc:null},
+  {scene:'十一月三日　上午十時',sub:'第五法庭'},
+  {c:'judge',t:'現在開庭審理被告簡家豪侵占遺失物案。'},
+  {c:'pros',t:'檢方傳喚失主，余明德。'},
+  {c:'yu',m:'angry',t:'余明德！我的錢包被他撿走，兩萬塊就這樣不見了！'},
+  {c:'judge',t:'證人，請就遺失錢包的經過作證。'},
+  {go:'t1'}
+ ],
+ t1:{cross:1,title:'遺失的錢包',w:'yu',st:[
+  {t:'那天晚上九點，我剛從銀行領了兩萬塊放進錢包。',contra:'atm1',solve:'t1s',press:[
+    {c:'zhou',t:'九點？在哪一家銀行領的？'},
+    {c:'yu',m:'sweat',t:'就、就超商旁邊的 ATM 啊。'},
+    {c:'an',t:'律師，提款機都有紀錄的……'}]},
+  {t:'我在超商買了包菸，出來錢包就不見了。',press:[
+    {c:'zhou',t:'你有馬上發現嗎？'},
+    {c:'yu',t:'回到家才發現。'}]},
+  {t:'一定是被告撿到以後，把錢抽走了。',press:[
+    {c:'zhou',t:'你親眼看到他抽錢嗎？'},
+    {c:'yu',m:'angry',t:'不然錢跑去哪裡了！'}]},
+  {t:'他過了好幾天才交給警察，誰知道中間做了什麼。',press:[
+    {c:'zhou',t:'好幾天？警察是什麼時候通知你的？'},
+    {c:'yu',m:'sweat',t:'呃……隔天早上。'},
+    {c:'an',m:'shock',t:'隔天早上就通知了？那不就是……'}]}
+ ]},
+ t1s:[
+  {banner:'異議！'},
+  {c:'zhou',t:'九點剛領了兩萬塊？請看你的提款紀錄。'},
+  {c:'zhou',m:'angry',t:'那天你只在八點五十分領了三千元，當天沒有其他提款紀錄！',flash:1},
+  {c:'yu',m:'shock',t:'……！',shake:1},
+  {present:{ok:'receipt1',c:'judge',q:'辯方，被告交給警察的皮夾裡，有多少錢？'}},
+  {banner:'就是這個！'},
+  {c:'zhou',t:'派出所的拾得物收據：現金三千兩百元。而且時間是當晚九點四十分——撿到之後二十五分鐘就送到了！'},
+  {c:'yu',m:'sweat',t:'那、那剩下的兩萬，是我本來就放在錢包裡的！'},
+  {c:'judge',t:'證人，請繼續作證。'},
+  {go:'t2'}
+ ],
+ t2:{cross:1,title:'消失的兩萬元',w:'yu',st:[
+  {t:'那兩萬塊是我早上就放在錢包裡的。',press:[
+    {c:'zhou',t:'早上放的，晚上還在？那天你去了哪裡？'},
+    {c:'yu',m:'sweat',t:'就……跟朋友喝茶聊天而已。'},
+    {c:'an',t:'律師，他外套口袋裡還有一張單據，警方一起拍照存證了。'},
+    {give:'mahjong'}]},
+  {t:'那天下午我一直在家，哪裡都沒去。',contra:'mahjong',solve:'t2s',press:[
+    {c:'zhou',t:'一直在家？'},
+    {c:'yu',m:'angry',t:'對！我很少出門！'}]},
+  {t:'我這個人很仔細，錢包裡有多少錢我清清楚楚。',press:[
+    {c:'zhou',t:'那你怎麼會把錢包掉在地上？'},
+    {c:'yu',m:'sweat',t:'……那是意外。'}]}
+ ]},
+ t2s:[
+  {banner:'異議！'},
+  {c:'zhou',t:'一直在家？請看這張麻將館的消費單。'},
+  {c:'zhou',m:'angry',t:'下午五點到八點半，你在麻將館！你錢包裡的兩萬塊，是在牌桌上輸掉的吧！',flash:1},
+  {c:'yu',m:'shock',t:'嗚……！',shake:1,flash:1},
+  {c:'yu',m:'sweat',t:'……我老婆知道我又去打牌，一定會跟我翻臉。剛好錢包掉了，我想說……就說錢是被偷的……'},
+  {choice:{c:'judge',q:'辯方，被告撿到皮夾後二十五分鐘就送到派出所，成立侵占遺失物罪嗎？',opts:[
+    {t:'成立。撿到東西沒有當場還給失主，就是侵占',r:'沒有當場找到失主很正常，重點是有沒有想占為己有。'},
+    {t:'不成立。被告沒有「意圖為自己不法所有」，撿到就送交警方',ok:1},
+    {t:'不成立，因為錢包裡的錢太少',r:'金額多少不是重點。'}]}},
+  {c:'zhou',t:'撿到東西送交警察，是法律期待每個人做的事。被告沒有任何占為己有的意思。'},
+  {c:'pros',m:'angry',t:'……檢方會另行偵辦證人誣告的部分。'},
+  {law:'false'},
+  {c:'judge',t:'本庭宣判。被告簡家豪——'},
+  {banner:'無罪',calm:1},
+  {loc:'lobby'},
+  {c:'jian',m:'happy',t:'律師，謝謝你！以後撿到東西，我還是會送去派出所的。'},
+  {c:'an',m:'happy',t:'而且依照民法，拾得人可以向失主請求報酬，最多是財物價值的十分之三喔！'},
+  {c:'zhou',t:'（撿到錢包該怎麼做、能拿多少報酬，部落格那篇文章寫得很清楚。）'},
+  {end:1}
+ ]
+ }
+},
+{id:'m2',mini:1,no:'116年度易字第1288號',name:'一星負評',charge:'加重誹謗（刑法第310條第2項）',def:'許芷晴',
+ blog:'https://cashkingw.blogspot.com/2026/10/google.html',blogT:'寫負評會被告嗎？Google評論、網路評價的法律界線',
+ sum:'大學生在餐廳的評論區留下一星負評：「湯裡吃到蟑螂」。老闆提告誹謗，說她根本沒來過。',
+ verdict:'被告所述內容有消費紀錄、照片及衛生局稽查紀錄可證為真實，且食品衛生與公共利益有關，屬對可受公評之事所為之適當評論。被告許芷晴無罪。',
+ ev:{
+  review:{n:'被告的一星評論',i:'phone',d:'10/8 13:02 發布\n★☆☆☆☆「湯裡吃到蟑螂，跟老闆反應，老闆說那是蔥。不會再來。」\n附照片1張。'},
+  receipt2:{n:'消費明細',i:'money',d:'董家小館　10/8 12:05\n牛肉湯麵 ×1　NT$180　行動支付\n付款人：許芷晴'},
+  photo2:{n:'照片原始檔',i:'cam',d:'拍攝時間 10/8 12:31\n湯碗邊緣印著「董家」的紅字，湯面上浮著一隻蟑螂。'},
+  inspect:{n:'衛生局稽查紀錄',i:'doc',d:'10/12 董家小館\n後場廚房發現蟑螂活體及排泄物，限期改善。'}
+ },
+ start:['review','receipt2','photo2'],
+ n:{
+ intro:[
+  {scene:'十月二十二日　下午三時',sub:'王小棒律師事務所'},
+  {loc:'office'},
+  {c:'xu',m:'sad',t:'我只是寫了一則負評……就收到地檢署的傳票了。'},
+  {c:'an',t:'許芷晴同學，大學生，平常會在網路上寫美食心得。餐廳老闆告她「加重誹謗」。'},
+  {law:'defame'},
+  {c:'zhou',t:'在網路上用文字散布足以毀損名譽的事，可能構成加重誹謗。但第三項也寫了：能證明是真的，就不罰。'},
+  {c:'zhou',t:'另外第三百一十一條也規定，善意對「可受公評之事」做適當評論，不罰。餐廳的食物和衛生，當然是可受公評的事。'},
+  {c:'xu',m:'sweat',t:'可是老闆說，我根本沒去過他們店……'},
+  {loc:null},
+  {scene:'十一月五日　上午十時',sub:'第三法庭'},
+  {c:'judge',t:'現在開庭審理被告許芷晴加重誹謗案。'},
+  {c:'pros',t:'檢方傳喚告訴人，董家小館老闆，董國樑。'},
+  {c:'dong',m:'angry',t:'我開店十五年，被她一則假評論害得生意掉了一半！'},
+  {c:'judge',t:'證人，請就評論的內容作證。'},
+  {go:'t1'}
+ ],
+ t1:{cross:1,title:'假評論',w:'dong',st:[
+  {t:'那天根本沒有這個客人。她從來沒來過我們店。',contra:'receipt2',solve:'t1s',press:[
+    {c:'zhou',t:'你怎麼確定？'},
+    {c:'dong',m:'smug',t:'我每個客人都記得。'},
+    {c:'an',t:'律師，她是用手機付款的……'}]},
+  {t:'評論是中午一點發的，那個時間我們店裡客人很多。',press:[
+    {c:'zhou',t:'所以你不可能記得每個客人？'},
+    {c:'dong',m:'angry',t:'……我、我記得重要的事！'}]},
+  {t:'她就是競爭對手找來的，故意抹黑我們。',press:[
+    {c:'zhou',t:'有證據嗎？'},
+    {c:'dong',t:'……感覺就是。'}]}
+ ]},
+ t1s:[
+  {banner:'異議！'},
+  {c:'zhou',t:'從來沒來過？請看這份消費明細。'},
+  {c:'zhou',m:'angry',t:'十月八日中午十二點零五分，董家小館，牛肉湯麵一碗——付款人就是許芷晴！',flash:1},
+  {c:'dong',m:'shock',t:'……！',shake:1},
+  {c:'dong',m:'angry',t:'就、就算她有來過，那張照片也是網路上抓的假圖！'},
+  {c:'judge',t:'證人，請就照片的部分作證。'},
+  {go:'t2'}
+ ],
+ t2:{cross:1,title:'照片',w:'dong',st:[
+  {t:'那張照片是網路上隨便抓的圖，根本不是我們的湯。',contra:'photo2',solve:'t2s',press:[
+    {c:'zhou',t:'你怎麼看出不是你們的湯？'},
+    {c:'dong',m:'smug',t:'我們的碗很特別，一看就知道。'}]},
+  {t:'就算真的有蟲，也是她自己放進去的。',press:[
+    {c:'zhou',t:'有證據嗎？'},
+    {c:'dong',m:'angry',t:'現在的年輕人什麼都做得出來！'}]}
+ ]},
+ t2s:[
+  {banner:'異議！'},
+  {c:'zhou',t:'網路上抓的圖？請看照片原始檔。'},
+  {c:'zhou',m:'angry',t:'拍攝時間是十月八日十二點三十一分，就在她付完錢之後。碗的邊緣，印著「董家」兩個紅字！',flash:1},
+  {c:'dong',m:'shock',t:'那、那是……',shake:1},
+  {c:'dong',m:'angry',t:'就算照片是真的！我們店裡每天消毒，絕對不可能有蟑螂！'},
+  {c:'judge',t:'證人，請就店內衛生作證。'},
+  {go:'t3'}
+ ],
+ t3:{cross:1,title:'店內衛生',w:'dong',st:[
+  {t:'我們店裡每天都消毒，從來沒有蟑螂。',contra:'inspect',solve:'t3s',press:[
+    {c:'zhou',t:'從來沒有？衛生局來檢查過嗎？'},
+    {c:'dong',m:'sweat',t:'……來過一次啦。'},
+    {c:'an',t:'律師！我向衛生局申請了那次的稽查紀錄！'},
+    {give:'inspect'}]},
+  {t:'她說我把蟑螂說成蔥，是在汙辱我。',press:[
+    {c:'zhou',t:'你當天有這樣說嗎？'},
+    {c:'dong',m:'sweat',t:'……我不記得了。'}]}
+ ]},
+ t3s:[
+  {banner:'異議！'},
+  {c:'zhou',t:'從來沒有蟑螂？請看衛生局的稽查紀錄。'},
+  {c:'zhou',m:'angry',t:'評論發布四天後，衛生局在你們後場廚房發現了蟑螂活體和排泄物，要求限期改善！',flash:1},
+  {c:'dong',m:'shock',t:'嗚啊——！',shake:1,flash:1},
+  {c:'dong',m:'sweat',t:'……那天她來反應的時候，我其實有看到。我怕傳出去，才說是蔥……'},
+  {choice:{c:'judge',q:'辯方，被告的一星評論，為什麼不構成誹謗？',opts:[
+    {t:'因為評論是匿名的',r:'評論有沒有匿名，不影響是否構成誹謗。'},
+    {t:'因為內容是真的，而且食品衛生和大眾有關，屬於可受公評之事的適當評論',ok:1},
+    {t:'因為負評本來就不犯法，想寫什麼都可以',r:'捏造事實的負評，還是可能構成誹謗喔。'}]}},
+  {c:'zhou',t:'被告寫的是她親身經歷、可以證明的事實；餐廳衛生和每個客人都有關係。這是法律保護的評論。'},
+  {law:'complaint'},
+  {c:'an',t:'誹謗是告訴乃論，告訴人可以在第一審辯論終結前撤回告訴喔。'},
+  {c:'dong',m:'sweat',t:'……我撤回。對不起。'},
+  {c:'judge',t:'本庭宣判。被告許芷晴——'},
+  {banner:'無罪',calm:1},
+  {loc:'lobby'},
+  {c:'xu',m:'happy',t:'謝謝律師！以後寫評論，我會記得留下消費紀錄和照片。'},
+  {c:'zhou',t:'只寫自己真的遇到的事、不要人身攻擊，負評就不怕被告。'},
+  {c:'an',m:'happy',t:'寫負評的界線在哪裡，部落格那篇文章有完整整理喔！'},
+  {end:1}
+ ]
+ }
+},
+{id:'m3',mini:1,no:'116年度金訴字第415號',name:'家庭代工的提款卡',charge:'幫助詐欺（刑法第30條、第339條）',def:'葉阿珠',
+ blog:'https://cashkingw.blogspot.com/2026/10/_5.html',blogT:'帳戶被列警示戶怎麼辦？把帳戶借人會有什麼後果',
+ sum:'家庭主婦應徵「在家串珠、月入三萬」的工作，照指示寄出提款卡。帳戶被詐騙集團拿去收贓款，她被起訴幫助詐欺。',
+ verdict:'被告係因求職遭詐騙集團以家庭代工名義誘騙而交付提款卡，未獲任何報酬，並於警方通知前主動報案，難認有幫助詐欺之直接或未必故意。被告葉阿珠無罪。',
+ ev:{
+  ad:{n:'徵人廣告截圖',i:'phone',d:'「在家串珠手工　月入三萬　免經驗」\n「薪資以轉帳發放，需寄提款卡以便公司代為登錄薪轉。」'},
+  bank3:{n:'被告的存摺明細',i:'money',d:'10/2 匯入 NT$150,000（唐雅婷）\n10/2 同日提領 NT$150,000（臺中某 ATM）\n9/1–10/31 沒有其他匯入款。'},
+  report3:{n:'報案三聯單',i:'doc',d:'10/3 09:20　葉阿珠至派出所報案：\n「應徵家庭代工被騙走提款卡，網銀顯示帳戶被凍結。」'},
+  notice3:{n:'警方通知書',i:'mail',d:'10/4 寄出\n通知葉阿珠到案說明帳戶涉及詐欺案。'},
+  kit:{n:'串珠材料包照片',i:'cam',d:'對方寄來的串珠材料包、作業說明書與「勞務契約」。\n契約上蓋著一家查無此公司的大印。'}
+ },
+ start:['ad','bank3','report3','kit'],
+ n:{
+ intro:[
+  {scene:'十月二十五日　上午十一時',sub:'王小棒律師事務所'},
+  {loc:'office'},
+  {c:'ye',m:'sad',t:'律師……我只是想在家賺點錢貼補家用，怎麼會變成詐騙集團？'},
+  {c:'an',t:'葉阿珠女士，五十八歲。她的帳戶被拿去收了一位被害人的十五萬元。'},
+  {c:'tang',m:'sad',t:'……我是唐雅婷。我以為是投資，把十五萬匯進了那個帳戶。'},
+  {law:'aid'},
+  {c:'zhou',t:'把帳戶交給別人去騙錢，可能成立「幫助詐欺」。但幫助犯也需要「故意」。'},
+  {law:'intent'},
+  {c:'zhou',t:'就算不是確定知道，只要預見帳戶可能被拿去詐騙、還是無所謂地交出去，也算故意。反過來說，如果她自己也是被騙的……'},
+  {c:'ye',m:'sweat',t:'對方還寄了串珠的材料包和合約給我！我真的以為是工作！'},
+  {loc:null},
+  {scene:'十一月十日　下午二時',sub:'第八法庭'},
+  {c:'judge',t:'現在開庭審理被告葉阿珠幫助詐欺案。'},
+  {c:'pros',t:'檢方傳喚承辦員警，郭建國。'},
+  {c:'guo',m:'smug',t:'郭建國。這種把帳戶賣給詐騙集團的人，我看多了。'},
+  {c:'judge',t:'證人，請就偵查經過作證。'},
+  {go:'t1'}
+ ],
+ t1:{cross:1,title:'人頭帳戶',w:'guo',st:[
+  {t:'被告把提款卡賣給詐騙集團，換了五千元報酬。',contra:'bank3',solve:'t1s',press:[
+    {c:'zhou',t:'五千元？是怎麼付給她的？'},
+    {c:'guo',m:'smug',t:'通常都是匯進帳戶啦。'},
+    {c:'an',t:'律師，存摺明細上……'}]},
+  {t:'被害人的十五萬元，當天就被領光了。',press:[
+    {c:'zhou',t:'是被告去領的嗎？'},
+    {c:'guo',m:'sweat',t:'……是在臺中領的。被告住在高雄。'}]},
+  {t:'這種廣告一看就是詐騙，任何人都知道。',press:[
+    {c:'zhou',t:'任何人都知道？'},
+    {c:'guo',m:'smug',t:'寄提款卡？當然是詐騙。'},
+    {c:'zhou',t:'（對警察來說是常識，對一位很少上網的家庭主婦呢？）'}]}
+ ]},
+ t1s:[
+  {banner:'異議！'},
+  {c:'zhou',t:'換了五千元報酬？請看被告的存摺明細。'},
+  {c:'zhou',m:'angry',t:'九月到十月，除了被害人的十五萬元，沒有任何一筆匯入款！被告一毛錢都沒有拿到！',flash:1},
+  {c:'guo',m:'shock',t:'……！',shake:1},
+  {c:'guo',m:'angry',t:'哼，那又怎樣。她是等我們找上門，才假裝自己是被害人去報案的！'},
+  {c:'judge',t:'證人，請就報案的經過作證。'},
+  {go:'t2'}
+ ],
+ t2:{cross:1,title:'報案的時間',w:'guo',st:[
+  {t:'我們十月四日寄出通知書，她收到之後才跑去報案。',contra:'report3',solve:'t2s',press:[
+    {c:'zhou',t:'她是哪一天報案的？'},
+    {c:'guo',m:'sweat',t:'我、我沒仔細看。'}]},
+  {t:'真正的求職者，不會把提款卡和密碼一起寄出去。',press:[
+    {c:'zhou',t:'對方怎麼跟她說的？'},
+    {c:'guo',t:'說要「代為登錄薪轉」……'},
+    {c:'an',t:'對方還寄了材料包和合約，看起來就像真的工作……'}]},
+  {t:'這種案子，最後幾乎都會判有罪。',press:[
+    {c:'zhou',t:'每個案子的事實都不一樣吧？'},
+    {c:'guo',m:'sweat',t:'……是沒錯。'}]}
+ ]},
+ t2s:[
+  {banner:'異議！'},
+  {c:'zhou',t:'收到通知書才去報案？請看報案三聯單。'},
+  {c:'zhou',m:'angry',t:'被告是十月三日早上九點二十分就去報案了——比警方寄出通知書，還早了一天！',flash:1},
+  {c:'guo',m:'shock',t:'什麼……！',shake:1,flash:1},
+  {present:{ok:'kit',c:'judge',q:'辯方，被告為什麼會相信這是一份真正的工作？'}},
+  {banner:'就是這個！'},
+  {c:'zhou',t:'對方真的寄來了串珠材料包、作業說明書和勞務契約。被告每天都在家串珠，等著領薪水。'},
+  {choice:{c:'judge',q:'辯方，「幫助詐欺」要成立，被告必須具備什麼？',opts:[
+    {t:'只要帳戶被拿去詐騙，帳戶主人就一定有罪',r:'刑法處罰的是「故意」，不是結果。'},
+    {t:'幫助的故意：至少要預見帳戶可能被拿去詐騙，還是無所謂地交出去',ok:1},
+    {t:'必須親自和被害人聯絡',r:'幫助犯不需要親自參與詐騙。'}]}},
+  {c:'zhou',t:'被告沒有拿到任何報酬，自己發現不對就立刻報案。她不是幫詐騙集團的人，她是另一個被害人。'},
+  {c:'judge',t:'本庭宣判。被告葉阿珠——'},
+  {banner:'無罪',calm:1},
+  {loc:'lobby'},
+  {c:'ye',m:'happy',t:'謝謝律師……我以後再也不會把提款卡交給任何人了。'},
+  {c:'tang',m:'sad',t:'……我的十五萬，還要得回來嗎？'},
+  {c:'zhou',t:'可以對真正的詐騙集團求償，警方也還在追查車手。'},
+  {c:'an',m:'sad',t:'不過要提醒大家：現實中，交出帳戶的人很多還是會被判有罪，帳戶也會被列為警示戶。'},
+  {c:'an',t:'提款卡和密碼，絕對不要交給任何人。帳戶被列警示戶要怎麼辦，部落格那篇文章有整理喔。'},
+  {end:1}
+ ]
+ }
+},
 
 ];
 
@@ -2617,7 +2911,7 @@ for(const k in SFXF){const syn=sfx[k];sfx[k]=(...a)=>{
     if(k==='combo')s.playbackRate.value=Math.pow(1.06,Math.min(a[0]||1,8)-1);   // 連擊越多音越高
     s.connect(g).connect(sfxBus);s.start(t)});
 }}
-const FEMALE=new Set(['an','lin','zhuo','jiang','pros','zheng','fan','shen','mei']);
+const FEMALE=new Set(['an','lin','zhuo','jiang','pros','zheng','fan','shen','mei','xu','ye','tang']);
 
 /* ================= 引擎 ================= */
 const $=id=>document.getElementById(id);
@@ -2836,15 +3130,16 @@ function show(which){
   $('hp').hidden=!inGame;$('btnEv').hidden=!inGame;$('btnHome').hidden=which==='title';
   if(which==='title'){$('topTitle').textContent='Cash的午夜檔案室';$('topNo').textContent='王小棒律師事件簿';mode='menu'}
 }
-function unlocked(i){return i===0||!!P.done[CASES[i-1].id]}
+function unlocked(i){return i===0||!!CASES[i].mini||!!P.done[CASES[i-1].id]}   // 生活法律小案件隨時可玩
 function renderCases(){
   renderCareer();
   const PARTS={0:'第一部　午夜檔案室',5:'第二部　霓虹的陰影',10:'番外篇　新的委託'};
+  const M0=CASES.findIndex(c=>c.mini);if(M0>=0)PARTS[M0]='生活法律小案件　每案約 5 分鐘・隨時可玩';
   $('cases').innerHTML=CASES.map((c,i)=>{
     const done=P.done[c.id], open=unlocked(i);
     const tag=done?`<span class="stamp">結案<br>${done}</span><span class="tag done">已結案・評價 ${done}</span>`:open?'<span class="tag open">可開庭</span>':'<span class="tag">完成前一案後開放</span>';
     const card=`<button class="cc" type="button" data-i="${i}" ${open?'':'disabled'}>
-      <span class="no"><span>第${['一','二','三','四','五','六','七','八','九','十','十一','十二'][i]}案　${c.no}</span></span>
+      <span class="no"><span>${c.mini?'小案件'+['一','二','三','四','五','六','七','八','九','十'][i-M0]:'第'+['一','二','三','四','五','六','七','八','九','十','十一','十二'][i]+'案'}　${c.no}</span></span>
       <span class="ttl">${c.name}</span>
       <span class="chg">${c.charge}・被告 ${c.def}</span>
       <span class="chg">${c.sum}</span>
@@ -2876,12 +3171,12 @@ function finish(){
   saveP();
   $('endNo').textContent=C.no+'　'+C.name;
   $('endText').textContent=C.verdict;
-  const last=G.ci===CASES.length-1;
+  const last=!!C.mini||G.ci===CASES.filter(c=>!c.mini).length-1;
   $('stats').innerHTML=`<div><small>評價</small><b class="${rank}">${rank}</b></div><div><small>得分</small><b>${G.score}</b></div><div><small>最大連擊</small><b>${G.maxCombo}</b></div><div><small>剩餘信任</small><b>${G.hp} / 5</b></div><div><small>追問次數</small><b>${G.press}</b></div><div><small>錯誤次數</small><b>${G.wrong}</b></div><div><small>提示</small><b>${G.hints}</b></div><div><small>法典收錄</small><b>${P.laws.length} / ${LAW_ORDER.length}</b></div>`;
   // 延伸閱讀：本案用到的法條解說文章
   const ks=[...new Set([...JSON.stringify(C).matchAll(/"law":"(\w+)"/g)].map(x=>x[1]))].filter(k=>BLOG[k]);
-  $('reading').innerHTML='<small>📖 延伸閱讀・本案法條白話解說</small>'+ks.map(k=>`<a href="${blogURL(k)}" target="_blank" rel="noopener">${LAWS[k].t}（${LAWS[k].n}）→</a>`).join('');
-  $('reading').hidden=!ks.length;
+  $('reading').innerHTML=(C.blog?`<small>📰 本案的生活法律文章</small><a href="${C.blog}" target="_blank" rel="noopener">${C.blogT} →</a>`:'')+'<small>📖 延伸閱讀・本案法條白話解說</small>'+ks.map(k=>`<a href="${blogURL(k)}" target="_blank" rel="noopener">${LAWS[k].t}（${LAWS[k].n}）→</a>`).join('');
+  $('reading').hidden=!ks.length&&!C.blog;
   $('btnNext').textContent=last?'全案終結':'下一案';
   $('btnNext').hidden=last;
   show('end');window.scrollTo({top:0});
@@ -2924,10 +3219,10 @@ function checkAch(rank){
   if([0,1,2,3,4].every(done))u('part1');
   if([5,6,7,8,9].every(done))u('part2');
   if(C.id==='c10')u('c10');
-  if(CASES.every((c,i)=>done(i)))u('all');
+  if(CASES.every((c,i)=>c.mini||done(i)))u('all');
   if(P.laws.length>=20)u('laws20');
   if(P.laws.length>=LAW_ORDER.length)u('lawsAll');
-  if(CASES.every(c=>P.done[c.id]==='S'))u('allS');
+  if(CASES.every(c=>c.mini||P.done[c.id]==='S'))u('allS');
   q.filter(id=>!(P.ach||[]).includes(id)).forEach((id,i)=>setTimeout(()=>unlock(id),1200+i*1600));
 }
 const TITLES=[[0,'實習律師'],[3000,'新進律師'],[9000,'執業律師'],[16000,'王牌律師'],[26000,'金牌大律師'],[36000,'傳說辯護人']];
@@ -3035,6 +3330,9 @@ function gateOpen(){
   const g=$('gate');if(g.classList.contains('out'))return;
   ensureAC();sfx.gavel();g.classList.add('out');setTimeout(()=>g.hidden=true,1100);
   if($('game').hidden&&$('end').hidden)music('theme');
+  // 部落格文章的連結（?case=m1）：進入後直接開那一案
+  const dl=(location.search.match(/[?&]case=(\w+)/)||[])[1],di=dl?CASES.findIndex(c=>c.id===dl):-1;
+  if(di>=0&&unlocked(di))setTimeout(()=>startCase(di),600);
 }
 $('gate').addEventListener('click',gateOpen);
 $('gate').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();gateOpen()}});
