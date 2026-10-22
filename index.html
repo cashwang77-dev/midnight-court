@@ -420,6 +420,7 @@ button:focus-visible,.ev:focus-visible,.box:focus-visible{outline:2px solid var(
     <div class="rowbtn">
       <button class="go" id="btnNext" type="button">下一案</button>
       <button class="go ghost" id="btnList" type="button">案件列表</button>
+      <button class="go ghost" id="btnShare" type="button">📣 分享成績</button>
     </div>
   </section>
 </div>
@@ -3179,6 +3180,7 @@ function finish(){
   $('reading').hidden=!ks.length&&!C.blog;
   $('btnNext').textContent=last?'全案終結':'下一案';
   $('btnNext').hidden=last;
+  G.lastRank=rank;
   show('end');window.scrollTo({top:0});
   checkAch(rank);
 }
@@ -3226,6 +3228,39 @@ function checkAch(rank){
   q.filter(id=>!(P.ach||[]).includes(id)).forEach((id,i)=>setTimeout(()=>unlock(id),1200+i*1600));
 }
 const TITLES=[[0,'實習律師'],[3000,'新進律師'],[9000,'執業律師'],[16000,'王牌律師'],[26000,'金牌大律師'],[36000,'傳說辯護人']];
+/* 分享成績：畫一張 1080x1080 成績圖（不用外部圖片，跨網域也能輸出），手機用系統分享、其他下載圖片＋複製文字；連結一律連部落格 */
+function shareURL(){return 'https://cashkingw.blogspot.com/p/cash.html'+(C&&C.mini?'?case='+C.id:'')}
+function shareCard(){
+  const W=1080,cv=document.createElement('canvas');cv.width=cv.height=W;const g=cv.getContext('2d');
+  const bg=g.createLinearGradient(0,0,0,W);bg.addColorStop(0,'#1d1712');bg.addColorStop(1,'#0c0a08');g.fillStyle=bg;g.fillRect(0,0,W,W);
+  g.strokeStyle='#c9a35a';g.lineWidth=6;g.strokeRect(36,36,W-72,W-72);g.lineWidth=2;g.strokeRect(52,52,W-104,W-104);
+  const serif='"Noto Serif TC","Songti TC","PMingLiU",serif';g.textAlign='center';
+  g.fillStyle='#c9a35a';g.font=`700 44px ${serif}`;g.fillText('Cash的午夜檔案室',W/2,150);
+  g.fillStyle='#8a7d6a';g.font=`30px ${serif}`;g.fillText(C.no,W/2,215);
+  g.fillStyle='#f2ead8';g.font=`900 76px ${serif}`;g.fillText('「'+C.name+'」',W/2,315);
+  g.fillStyle='#b8ab94';g.font=`32px ${serif}`;g.fillText('被告 '+C.def+'　無罪',W/2,375);
+  // 評價印章
+  const rk=G.lastRank||'S';g.save();g.translate(W/2,580);g.rotate(-.08);
+  g.strokeStyle='#c8352a';g.lineWidth=12;g.beginPath();g.arc(0,0,150,0,7);g.stroke();g.lineWidth=4;g.beginPath();g.arc(0,0,128,0,7);g.stroke();
+  g.fillStyle='#c8352a';g.font=`900 190px ${serif}`;g.textBaseline='middle';g.fillText(rk,0,8);g.restore();g.textBaseline='alphabetic';
+  g.fillStyle='#f2ead8';g.font=`700 52px ${serif}`;g.fillText(`得分 ${G.score}　最大連擊 ${G.maxCombo}`,W/2,820);
+  const total=Object.values(P.best||{}).reduce((a,b)=>a+b,0),t=TITLES.filter(x=>total>=x[0]).pop();
+  g.fillStyle='#c9a35a';g.font=`40px ${serif}`;g.fillText('稱號：'+t[1],W/2,890);
+  g.fillStyle='#8a7d6a';g.font=`30px ${serif}`;g.fillText('免費線上法庭遊戲　cashkingw.blogspot.com',W/2,985);
+  return cv;
+}
+async function shareResult(){
+  const text=`我在《Cash的午夜檔案室》打贏了「${C.name}」，評價 ${G.lastRank||'S'}、${G.score} 分！換你當辯護律師 → ${shareURL()}`;
+  const cv=shareCard(),blob=await new Promise(r=>cv.toBlob(r,'image/png'));
+  const file=blob&&new File([blob],'午夜檔案室成績.png',{type:'image/png'});
+  try{
+    if(file&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],text});return}
+    if(navigator.share){await navigator.share({text,url:shareURL()});return}
+  }catch(e){if(e&&e.name==='AbortError')return}
+  // 電腦版：下載成績圖＋複製文字
+  if(blob){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='午夜檔案室成績.png';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}
+  try{await navigator.clipboard.writeText(text);toast('成績圖已下載，分享文字已複製，可以直接貼到 FB／LINE')}catch(e){toast('成績圖已下載')}
+}
 function renderCareer(){
   const total=Object.values(P.best||{}).reduce((a,b)=>a+b,0);
   const t=TITLES.filter(x=>total>=x[0]).pop(),nx=TITLES.find(x=>x[0]>total);
@@ -3308,6 +3343,7 @@ $('btnSnd').onclick=()=>{sound=!sound;$('btnSnd').textContent='音效：'+(sound
 $('box').addEventListener('click',advance);
 $('bPress').onclick=press;
 $('bPresent').onclick=openEv;$('bPresent2').onclick=openEv;
+$('btnShare').onclick=shareResult;
 $('bPrev').onclick=()=>step(-1);$('bNext').onclick=()=>step(1);
 document.addEventListener('keydown',e=>{
   if(!$('lawModal').hidden){if(e.key==='Enter'||e.key==='Escape'){e.preventDefault();$('lawOk').click()}return}
