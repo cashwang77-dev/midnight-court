@@ -190,6 +190,8 @@ button:focus-visible,.ev:focus-visible,.box:focus-visible{outline:2px solid var(
 .go{align-self:flex-start;padding:14px 40px;font-family:var(--f-display);font-weight:900;font-size:20px;letter-spacing:.4em;background:var(--seal);border:0;border-radius:4px;color:#fff}
 .go:hover{filter:brightness(1.1)}
 .go.ghost{background:transparent;border:1px solid var(--line);color:var(--fg);font-size:16px;letter-spacing:.2em;padding:12px 24px}
+.resume{margin:0 0 10px;padding:12px 14px;border:2px solid #d0a54c;border-radius:6px;background:rgba(208,165,76,.12);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px}
+.resume b{color:#e8cf8a}.resume button{padding:8px 16px;font-weight:bold;background:#d0a54c;color:#13100e;border:0;border-radius:4px;cursor:pointer}
 .cases{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
 .cc{position:relative;display:flex;flex-direction:column;gap:6px;text-align:left;padding:16px 18px;border:1px solid #4a3c2c;border-radius:6px;background:linear-gradient(180deg,#241d17,#1a1511);min-width:0;box-shadow:inset 0 1px 0 rgba(255,230,180,.06),0 6px 16px rgba(0,0,0,.3);transition:transform .15s,border-color .15s}
 .cc:hover:not(:disabled){transform:translateY(-2px)}
@@ -369,6 +371,7 @@ button:focus-visible,.ev:focus-visible,.box:focus-visible{outline:2px solid var(
       <div><b>法律判斷</b>庭上會考你法律問題，也要抓準時機對不當詰問提出異議。</div>
       <div><b>法典</b>途中學到的法條會收進法典，可以隨時翻閱。</div>
     </div>
+    <div class="resume" id="resume" hidden></div>
     <div class="cases" id="cases"></div>
     <div class="career" id="career"></div>
     <div class="rowbtn"><button class="chip" id="btnAch" type="button">🏆 成就</button><button class="chip" id="btnReset" type="button">清除進度</button></div>
@@ -2937,6 +2940,24 @@ const KEY='courtroom-progress-v1';
 let P={done:{},laws:[],best:{},ach:[]};
 try{const raw=localStorage.getItem(KEY);if(raw)P=Object.assign(P,JSON.parse(raw))}catch(e){}
 function saveP(){try{localStorage.setItem(KEY,JSON.stringify(P))}catch(e){}}
+// 案件中途存檔（2026-10-23）：每一段開始時存，下次從標題畫面「繼續上次的案件」接著玩；結案或清除進度時刪掉
+const RKEY='courtroom-resume-v1';
+function saveResume(){try{if(G&&G.cp)localStorage.setItem(RKEY,JSON.stringify({G,at:Date.now()}))}catch(e){}}
+function clearResume(){try{localStorage.removeItem(RKEY)}catch(e){}}
+function loadResume(){try{const d=JSON.parse(localStorage.getItem(RKEY));if(d&&d.G&&d.G.cp&&CASES[d.G.ci])return d}catch(e){}return null}
+function showResume(){
+  const el=$('resume'),d=loadResume();if(!el)return;
+  if(!d){el.hidden=true;return}
+  const c=CASES[d.G.ci],dt=new Date(d.at);
+  el.innerHTML=`<span>上次玩到：<b>${c.no}　${c.name}</b><br><small>${dt.getMonth()+1}/${dt.getDate()} ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')} 存檔・從該段開頭繼續</small></span><button type="button" id="btnResume">▶ 繼續上次的案件</button>`;
+  el.hidden=false;$('btnResume').onclick=()=>resumeGame(d.G);
+}
+function resumeGame(g){
+  ensureAC();preloadCase(CASES[g.ci]);
+  C=CASES[g.ci];G=g;G.hp=G.cp.hp;G.ev=G.cp.ev.slice();G.loc=G.cp.loc;renderHP();
+  $('topTitle').textContent=C.name;$('topNo').textContent=C.no;$('over').hidden=true;
+  show('game');go(G.cp.node);
+}
 
 /* ================= 音樂與音效 ================= */
 // 原創配樂，以 Web Audio 即時合成（不需音樂檔）
@@ -3222,6 +3243,7 @@ function advance(){
 }
 function go(node){
   G.cp={node,hp:G.hp,ev:G.ev.slice(),loc:G.loc};
+  saveResume();
   const n=C.n[node];
   if(n.cross) music('cross');else if(/s$/.test(node)) music('pursuit');
   if(n.cross){cur=n;stmt=0;showStatement(true)}
@@ -3298,7 +3320,7 @@ function show(which){
   $('title').hidden=which!=='title';$('game').hidden=which!=='game';$('end').hidden=which!=='end';
   const inGame=which==='game';
   $('hp').hidden=!inGame;$('btnEv').hidden=!inGame;$('btnHome').hidden=which==='title';
-  if(which==='title'){$('topTitle').textContent='Cash的午夜檔案室';$('topNo').textContent='王小棒律師事件簿';mode='menu'}
+  if(which==='title'){$('topTitle').textContent='Cash的午夜檔案室';$('topNo').textContent='王小棒律師事件簿';mode='menu';showResume()}
 }
 function unlocked(i){return i===0||!!CASES[i].mini||!!P.done[CASES[i-1].id]}   // 生活法律小案件隨時可玩
 function renderCases(){
@@ -3338,7 +3360,7 @@ function finish(){
   setTimeout(()=>sfx.stamp(),550);
   const prev=P.done[C.id];
   if(!prev||'SABC'.indexOf(rank)<'SABC'.indexOf(prev)) P.done[C.id]=rank;
-  saveP();
+  saveP();clearResume();
   $('endNo').textContent=C.no+'　'+C.name;
   $('endText').textContent=C.verdict;
   const last=!!C.mini||G.ci===CASES.filter(c=>!c.mini).length-1;
@@ -3499,7 +3521,7 @@ $('cases').addEventListener('click',e=>{const b=e.target.closest('.cc');if(b&&!b
 let resetArm=false;
 $('btnReset').onclick=()=>{
   if(!resetArm){resetArm=true;$('btnReset').textContent='再按一次確認清除';setTimeout(()=>{resetArm=false;$('btnReset').textContent='清除進度'},3000);return}
-  P={done:{},laws:[],best:{},ach:[]};saveP();renderCareer();resetArm=false;$('btnReset').textContent='已清除';renderCases();
+  P={done:{},laws:[],best:{},ach:[]};saveP();clearResume();showResume();renderCareer();resetArm=false;$('btnReset').textContent='已清除';renderCases();
 };
 $('btnNext').onclick=()=>startCase(G.ci+1);
 $('btnList').onclick=()=>{music('theme');renderCases();show('title');window.scrollTo({top:0})};
