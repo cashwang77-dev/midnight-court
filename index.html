@@ -3425,7 +3425,10 @@ const ACH=[
   ['lawsAll','📚','活法典','法典收錄全部法條'],
   ['allS','👑','傳說辯護人','十二案全部 S 評價'],
   ['chal','🔥','鐵面辯護人','挑戰模式打贏一案（信任 3、不能用提示）'],
-  ['chalS','⚔️','無懈可擊','挑戰模式拿到 S 評價']
+  ['chalS','⚔️','無懈可擊','挑戰模式拿到 S 評價'],
+  ['daily3','📅','三日不輟','今日法庭連續答題 3 天'],
+  ['daily7','🗓️','一週法庭','今日法庭連續答題 7 天'],
+  ['daily30','🏅','法律日課','今日法庭連續答題 30 天']
 ];
 function unlock(id){
   P.ach=P.ach||[];if(P.ach.includes(id))return;
@@ -3711,7 +3714,8 @@ function dqAnswer(i){
   try{ok?sfx.get():sfx.bad()}catch(e){}
   if(!DQ.practice){
     const S=dqGet(),today=dqDate(),y=new Date();y.setDate(y.getDate()-1);
-    if(S.last!==today){S.streak=S.last===dqDate(y)?(S.streak||0)+1:1;S.best=Math.max(S.best||0,S.streak);S.total=(S.total||0)+1;if(ok)S.ok=(S.ok||0)+1;S.last=today;S.qi=DQ.i;S.lastOk=ok;dqSet(S);}
+    if(S.last!==today){S.streak=S.last===dqDate(y)?(S.streak||0)+1:1;S.best=Math.max(S.best||0,S.streak);S.total=(S.total||0)+1;if(ok)S.ok=(S.ok||0)+1;S.last=today;S.qi=DQ.i;S.lastOk=ok;dqSet(S);
+      [[3,'daily3'],[7,'daily7'],[30,'daily30']].forEach(([n,id],i)=>{if(S.streak>=n)setTimeout(()=>unlock(id),800+i*1600)});}
     if(!P.laws.includes(q.k)){P.laws.push(q.k);saveP();toast(`法典收錄：${LAWS[q.k].t}`)}   // 答過的法條也收進法典
     if(typeof stat==='function')try{stat('daily',ok?'ok':'ng')}catch(e){}
   }
