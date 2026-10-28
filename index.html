@@ -45,6 +45,7 @@ button:focus-visible,.ev:focus-visible,.box:focus-visible{outline:2px solid var(
 .hp svg{width:22px;height:22px;transition:opacity .3s,transform .3s}
 .hp svg.lost{opacity:.18;transform:scale(.85)}
 .chip{background:transparent;border:1px solid var(--line);border-radius:4px;padding:6px 10px;font-size:13px}
+.chip.on{border-color:var(--seal);color:#fff;background:rgba(200,53,42,.35)}
 .chip:hover{border-color:var(--brass);color:var(--brass)}
 
 /* 舞台 */
@@ -215,6 +216,28 @@ button:focus-visible,.ev:focus-visible,.box:focus-visible{outline:2px solid var(
 .reading small{color:var(--muted);font-size:12px;letter-spacing:.1em}
 .reading a,.lawlink{color:var(--brass);text-decoration:none;font-weight:700}
 .reading a:hover,.lawlink:hover{text-decoration:underline}
+.daily{border:1px solid var(--brass);background:var(--panel);padding:14px 18px;max-width:66ch;display:flex;flex-direction:column;gap:10px}
+.dqh{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.dqh small{color:var(--brass);font-weight:700;letter-spacing:.12em;font-size:13px}
+.dqh span{color:var(--muted);font-size:12.5px}
+.dqq{margin:0;font-weight:700;line-height:1.7}
+.dqo{display:flex;flex-direction:column;gap:6px}
+.dqo button{text-align:left;padding:10px 14px;border:1px solid var(--line);background:transparent;color:var(--fg);font:inherit;border-radius:4px;cursor:pointer}
+.dqo button:hover:not(:disabled){border-color:var(--brass)}
+.dqo button.ok{border-color:#3f8f5a;background:rgba(63,143,90,.18)}
+.dqo button.ng{border-color:var(--seal);background:rgba(200,53,42,.15)}
+.dqo button.dim{opacity:.5}
+.dqe{display:flex;flex-direction:column;gap:6px;line-height:1.7;font-size:14.5px;border-left:3px solid var(--brass);padding-left:12px}
+.dqe a{color:var(--brass);font-weight:700;text-decoration:none}
+.dqb{display:flex;gap:8px;flex-wrap:wrap}
+.xp{margin-top:18px;max-width:66ch}
+.xp small{display:block;color:var(--muted);font-size:12px;letter-spacing:.1em;margin-bottom:8px}
+.xpl{display:flex;gap:10px;flex-wrap:wrap}
+.xpl a{flex:1 1 230px;display:grid;grid-template-columns:96px 1fr;column-gap:10px;align-items:center;border:1px solid var(--line);background:var(--panel);padding:6px;color:inherit;text-decoration:none;line-height:1.4}
+.xpl a:hover{border-color:var(--brass)}
+.xpl img{grid-row:1/3;width:96px;aspect-ratio:1.91;object-fit:cover}
+.xpl b{color:var(--brass);align-self:end}
+.xpl span{font-size:12.5px;color:var(--muted);align-self:start}
 .lawlink{display:inline-block;margin-top:10px}
 .embedded body{padding-bottom:110px}
 .over{position:absolute;inset:0;z-index:10;background:rgba(10,4,4,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:16px}
@@ -372,9 +395,10 @@ button:focus-visible,.ev:focus-visible,.box:focus-visible{outline:2px solid var(
       <div><b>法典</b>途中學到的法條會收進法典，可以隨時翻閱。</div>
     </div>
     <div class="resume" id="resume" hidden></div>
+    <div class="daily" id="daily"></div>
     <div class="cases" id="cases"></div>
     <div class="career" id="career"></div>
-    <div class="rowbtn"><button class="chip" id="btnAch" type="button">🏆 成就</button><button class="chip" id="btnReset" type="button">清除進度</button></div>
+    <div class="rowbtn"><button class="chip" id="btnChal" type="button">🔥 挑戰模式：關</button><button class="chip" id="btnAch" type="button">🏆 成就</button><button class="chip" id="btnReset" type="button">清除進度</button></div>
     <p style="text-align:center;margin:18px 0 6px"><a href="https://ko-fi.com/cash703856" target="_blank" rel="noopener" style="display:inline-block;padding:10px 22px;border:1px solid var(--brass);border-radius:4px;color:var(--brass);font-weight:700;letter-spacing:.12em;text-decoration:none">☕ 贊助作者</a><br><small style="color:var(--muted)">喜歡這個遊戲的話，歡迎請 Cash 喝杯咖啡</small></p>
     <p class="note">遊戲中的人物、公司與案件均為虛構。 <a href="privacy.html" style="color:var(--brass)">隱私權政策</a>　<a href="https://cashkingw.blogspot.com/" target="_blank" rel="noopener" style="color:var(--brass)">法條解說專欄</a></p>
   </section>
@@ -426,6 +450,10 @@ button:focus-visible,.ev:focus-visible,.box:focus-visible{outline:2px solid var(
       <button class="go ghost" id="btnList" type="button">案件列表</button>
       <button class="go ghost" id="btnShare" type="button">📣 分享成績</button>
     </div>
+    <div class="xp"><small>Cash城的其他免費遊戲</small><div class="xpl">
+      <a href="https://cashkingw.blogspot.com/2026/10/444.html" target="_top" rel="noopener"><img src="https://cashwang77-dev.github.io/midnight-court/xp/x_kisaragi.jpg" alt="" loading="lazy"><b>夜校・如月</b><span>校園恐怖潛行・都市傳說</span></a>
+      <a href="https://cashkingw.blogspot.com/2026/10/_69.html" target="_top" rel="noopener"><img src="https://cashwang77-dev.github.io/midnight-court/xp/x_sekigahara.jpg" alt="" loading="lazy"><b>關原決戰</b><span>六角格戰國戰略・東西軍任選</span></a>
+    </div></div>
   </section>
 </div>
 
@@ -3109,7 +3137,7 @@ const $=id=>document.getElementById(id);
 let G=null, C=null;
 let seq=[],si=0,seqDone=null,mode='menu',cur=null,stmt=0,typing=null,fullText='',waiting=false,presentStep=null;
 
-function newGame(ci){return {ci,hp:5,ev:CASES[ci].start.slice(),seen:CASES[ci].start.slice(),press:0,wrong:0,loc:null,cp:null,combo:0,maxCombo:0,score:0,hints:0}}
+function newGame(ci){return {ci,chal:!!P.chal,hp:P.chal?3:5,ev:CASES[ci].start.slice(),seen:CASES[ci].start.slice(),press:0,wrong:0,loc:null,cp:null,combo:0,maxCombo:0,score:0,hints:0}}
 // 看穿（正確出示、正確回答）：連擊加分
 function good(){
   G.combo++;G.maxCombo=Math.max(G.maxCombo,G.combo);
@@ -3121,8 +3149,9 @@ function good(){
   if(G.combo>=5)unlock('combo5');
 }
 function renderHP(){
+  const MAXHP=G&&G.chal?3:5;
   const scale=on=>`<svg viewBox="0 0 24 24" class="${on?'':'lost'}"><path d="M12 3v17M6 20h12M4 7h16" stroke="#d0a54c" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M4 7l-3 6a3 3 0 006 0zM20 7l-3 6a3 3 0 006 0z" fill="#d0a54c"/></svg>`;
-  $('hp').innerHTML='<span>法官信任</span>'+[0,1,2,3,4].map(i=>scale(G&&i<G.hp)).join('');
+  $('hp').innerHTML='<span>'+(G&&G.chal?'🔥 法官信任':'法官信任')+'</span>'+[...Array(MAXHP).keys()].map(i=>scale(G&&i<G.hp)).join('');
 }
 function setScene(c,m,enter){
   const ch=CH[c], pos=G.loc||(C.pos&&C.pos[c])||ch.pos, stage=$('stage');
@@ -3166,7 +3195,7 @@ function toast(msg){
 function showCtrl(which){
   $('ctrlX').hidden=which!=='x';$('ctrlP').hidden=which!=='p';$('choices').hidden=which!=='c';
   $('xbar').hidden=mode!=='cross';
-  $('btnHint').hidden=!(which==='x'||which==='p');
+  $('btnHint').hidden=!(which==='x'||which==='p')||!!(G&&G.chal);
 }
 function runSeq(steps,done){seq=steps;si=0;seqDone=done||null;nextStep()}
 function nextStep(){
@@ -3293,6 +3322,7 @@ function present(id){
 // 小安提示：第一次說哪一句可疑，第二次說用哪個證物（用過提示，評價最高 A）
 function hint(){
   if(!G||!(mode==='cross'||mode==='present'))return;
+  if(G.chal){toast('🔥 挑戰模式不能使用提示');return}
   if(typing)finishType();
   G.hints++;sfx.page();
   let lines;
@@ -3312,7 +3342,7 @@ function hint(){
 function gameOver(){mode='over';showCtrl(null);music('lose');sfx.guilty();$('over').hidden=false}
 function retry(){
   $('over').hidden=true;
-  G.hp=5;G.ev=G.cp.ev.slice();G.loc=G.cp.loc;renderHP();music(G.loc?'lobby':'trial');go(G.cp.node);
+  G.hp=G.chal?3:5;G.ev=G.cp.ev.slice();G.loc=G.cp.loc;renderHP();music(G.loc?'lobby':'trial');go(G.cp.node);
 }
 
 /* ================= 畫面切換 ================= */
@@ -3320,7 +3350,7 @@ function show(which){
   $('title').hidden=which!=='title';$('game').hidden=which!=='game';$('end').hidden=which!=='end';
   const inGame=which==='game';
   $('hp').hidden=!inGame;$('btnEv').hidden=!inGame;$('btnHome').hidden=which==='title';
-  if(which==='title'){$('topTitle').textContent='Cash的午夜檔案室';$('topNo').textContent='王小棒律師事件簿';mode='menu';showResume()}
+  if(which==='title'){$('topTitle').textContent='Cash的午夜檔案室';$('topNo').textContent='王小棒律師事件簿';mode='menu';showResume();if(window.DQ_READY)renderDaily()}
 }
 function unlocked(i){return i===0||!!CASES[i].mini||!!P.done[CASES[i-1].id]}   // 生活法律小案件隨時可玩
 function renderCases(){
@@ -3355,7 +3385,8 @@ function finish(){
   mode='end';
   let rank=G.wrong===0?'S':G.wrong<=1?'A':G.wrong<=3?'B':'C';
   if(G.hints&&rank==='S')rank='A';
-  const bonus=G.hp*200+(G.wrong?0:500)+(G.hints?0:300);G.score+=bonus;
+  const bonus=G.hp*200+(G.wrong?0:500)+(G.hints?0:300)+(G.chal?600:0);G.score+=bonus;
+  if(G.chal){P.chalDone=P.chalDone||{};const pv=P.chalDone[C.id];if(!pv||'SABC'.indexOf(rank)<'SABC'.indexOf(pv))P.chalDone[C.id]=rank}
   P.best=P.best||{};if(!P.best[C.id]||G.score>P.best[C.id])P.best[C.id]=G.score;
   setTimeout(()=>sfx.stamp(),550);
   const prev=P.done[C.id];
@@ -3365,6 +3396,7 @@ function finish(){
   $('endText').textContent=C.verdict;
   const last=!!C.mini||G.ci===CASES.filter(c=>!c.mini).length-1;
   $('stats').innerHTML=`<div><small>評價</small><b class="${rank}">${rank}</b></div><div><small>得分</small><b>${G.score}</b></div><div><small>最大連擊</small><b>${G.maxCombo}</b></div><div><small>剩餘信任</small><b>${G.hp} / 5</b></div><div><small>追問次數</small><b>${G.press}</b></div><div><small>錯誤次數</small><b>${G.wrong}</b></div><div><small>提示</small><b>${G.hints}</b></div><div><small>法典收錄</small><b>${P.laws.length} / ${LAW_ORDER.length}</b></div>`;
+  if(G.chal)$('stats').insertAdjacentHTML('afterbegin','<div><small>模式</small><b>🔥 挑戰</b></div>');
   // 延伸閱讀：本案用到的法條解說文章
   const ks=[...new Set([...JSON.stringify(C).matchAll(/"law":"(\w+)"/g)].map(x=>x[1]))].filter(k=>BLOG[k]);
   $('reading').innerHTML=(C.blog?`<small>📰 本案的生活法律文章</small><a href="${C.blog}" target="_blank" rel="noopener">${C.blogT} →</a>`:'')+'<small>📖 延伸閱讀・本案法條白話解說</small>'+ks.map(k=>`<a href="${blogURL(k)}" target="_blank" rel="noopener">${LAWS[k].t}（${LAWS[k].n}）→</a>`).join('');
@@ -3391,7 +3423,9 @@ const ACH=[
   ['all','🏛️','全案終結','完成全部十二個案件'],
   ['laws20','📖','法律通','法典收錄 20 條'],
   ['lawsAll','📚','活法典','法典收錄全部法條'],
-  ['allS','👑','傳說辯護人','十二案全部 S 評價']
+  ['allS','👑','傳說辯護人','十二案全部 S 評價'],
+  ['chal','🔥','鐵面辯護人','挑戰模式打贏一案（信任 3、不能用提示）'],
+  ['chalS','⚔️','無懈可擊','挑戰模式拿到 S 評價']
 ];
 function unlock(id){
   P.ach=P.ach||[];if(P.ach.includes(id))return;
@@ -3404,6 +3438,7 @@ function unlock(id){
 function checkAch(rank){
   const q=[];const u=id=>q.push(id);
   u('first');if(rank==='S')u('s1');
+  if(G.chal){u('chal');if(rank==='S')u('chalS')}
   if(!G.wrong&&!G.hints)u('nohint');
   if(G.hp===1)u('comeback');
   if(G.press===0)u('nopress');
@@ -3429,7 +3464,7 @@ function shareCard(){
   g.fillStyle='#c9a35a';g.font=`700 44px ${serif}`;g.fillText('Cash的午夜檔案室',W/2,150);
   g.fillStyle='#8a7d6a';g.font=`30px ${serif}`;g.fillText(C.no,W/2,215);
   g.fillStyle='#f2ead8';g.font=`900 76px ${serif}`;g.fillText('「'+C.name+'」',W/2,315);
-  g.fillStyle='#b8ab94';g.font=`32px ${serif}`;g.fillText('被告 '+C.def+'　無罪',W/2,375);
+  g.fillStyle='#b8ab94';g.font=`32px ${serif}`;g.fillText('被告 '+C.def+'　無罪'+(G.chal?'　🔥 挑戰模式':''),W/2,375);
   // 評價印章
   const rk=G.lastRank||'S';g.save();g.translate(W/2,580);g.rotate(-.08);
   g.strokeStyle='#c8352a';g.lineWidth=12;g.beginPath();g.arc(0,0,150,0,7);g.stroke();g.lineWidth=4;g.beginPath();g.arc(0,0,128,0,7);g.stroke();
@@ -3463,6 +3498,9 @@ function openAch(){
   $('achModal').hidden=false;sfx.page();$('achClose').focus();
 }
 $('btnAch').onclick=openAch;
+// 挑戰模式：法官信任只有 3、不能用小安提示，結案多 600 分（2026-10-28）
+function renderChal(){const b=$('btnChal');if(!b)return;b.textContent='🔥 挑戰模式：'+(P.chal?'開':'關');b.classList.toggle('on',!!P.chal)}
+$('btnChal').onclick=()=>{P.chal=!P.chal;saveP();renderChal();toast(P.chal?'🔥 挑戰模式開啟：法官信任只有 3、不能用提示':'挑戰模式關閉')};renderChal();
 $('achClose').onclick=()=>$('achModal').hidden=true;
 $('achModal').addEventListener('click',e=>{if(e.target.id==='achModal')$('achModal').hidden=true});
 $('btnHint').onclick=hint;
@@ -3597,6 +3635,101 @@ function boot(data){
 }
 window.claude?.hot?.snapshot?.(()=>({G,playing:!$('game').hidden}));
 window.claude?.hot?.ready ? window.claude.hot.ready(boot) : boot(window.claude?.hot?.data ?? {});
+/* ================= 今日法庭：每日一題（2026-10-28） =================
+   標題畫面上方的小卡：每天一題生活法律選擇題（依日期輪替，全世界同一題），答完看白話解說＋連到部落格法條文章。
+   連續作答天數存 localStorage mc-daily-v1。答完可以「再來一題」練習（不影響連續天數）。題目 k＝LAWS 的鍵（連 blogURL）。 */
+const QZ=[
+ {k:'theft',q:'阿明在便利商店順手把別人放在桌上的行動電源放進口袋帶走，可能構成什麼罪？',o:['竊盜罪','侵占遺失物罪','不構成犯罪'],a:0,e:'東西還在別人的持有之下（放在桌上、主人就在附近），未經同意拿走、而且想據為己有，就是竊盜。如果是真的掉在路邊、主人已失去持有，才比較可能是侵占遺失物。'},
+ {k:'presume',q:'新聞說某人「涉嫌」犯罪、已被起訴。在法院判決確定以前，法律上他應該被當成？',o:['有罪的人','無罪的人','半個罪犯'],a:1,e:'這叫「無罪推定」：判決確定前，被告都推定為無罪。被起訴不等於有罪，網路上公審前要三思。'},
+ {k:'burden',q:'刑事案件裡，原則上要負責證明「被告有犯罪」的是誰？',o:['被告自己','檢察官','法官'],a:1,e:'檢察官要負舉證責任，並指出證明的方法。被告不需要證明自己清白；證據不夠，就應該判無罪。'},
+ {k:'perjury',q:'證人在法庭上「具結」（保證據實陳述）之後，對案情的重要事項故意說謊，可能構成？',o:['偽證罪','誣告罪','沒事，只是說錯話'],a:0,e:'具結後對重要事項故意作虛偽陳述，就是偽證罪。記錯、講不清楚不算，重點是「故意說謊」。'},
+ {k:'false',q:'小美跟同事吵架，氣不過就跑去警局謊稱同事偷她錢包，想讓對方被抓。小美可能構成？',o:['誹謗罪','誣告罪','偽證罪'],a:1,e:'意圖讓別人受刑事處分，向警察、檢察官等「該管公務員」捏造事實告發，就是誣告罪。'},
+ {k:'embezzle',q:'公司會計把自己保管的公款轉進自己的帳戶花掉，最可能構成？',o:['竊盜罪','業務侵占罪','背信罪以外都不成立'],a:1,e:'錢本來就在自己「因業務而持有」之下，再把它變成自己的，就是業務侵占，比普通侵占罰得更重。'},
+ {k:'leading',q:'律師在「主詰問」自己這方的證人時，原則上可以問「你當時是不是看到被告拿刀？」這種誘導問題嗎？',o:['可以，隨便問','原則上不行','只有法官同意才算違法'],a:1,e:'主詰問原則上不得誘導（避免替證人「餵答案」）；反詰問對方證人時，必要時才可以誘導。'},
+ {k:'fraud',q:'網拍賣家收了錢卻根本沒有商品、也不打算出貨，一收到款就封鎖買家。可能構成？',o:['民事糾紛而已','詐欺罪','侵占罪'],a:1,e:'一開始就打算騙錢、用不實的方法讓人交付財物，就是詐欺。單純延遲出貨是民事問題，關鍵在「一開始就沒打算履約」。'},
+ {k:'forgery',q:'學生偷偷在聯絡簿上模仿爸媽的筆跡簽名，法律上這種行為的性質最接近？',o:['偽造私文書的行為','完全沒有法律問題','誹謗'],a:0,e:'冒用他人名義製作文書，足以生損害時就可能構成偽造私文書。現實中聯絡簿多半不會被追訴，但在契約、借據上這樣做就很嚴重。'},
+ {k:'intent',q:'阿傑朝人群開車時心想「撞到人也無所謂」，結果真的撞傷人。法律上他是？',o:['過失','故意（未必故意）','意外，不用負責'],a:1,e:'預見結果可能發生、而且發生也不違背他的本意，叫「未必故意」，法律上當成故意處理。'},
+ {k:'aid',q:'把自己的銀行帳戶、提款卡賣給陌生人，結果被拿去收詐騙款。賣帳戶的人可能構成？',o:['詐欺的幫助犯','被害人，完全沒事','只會被銀行罰款'],a:0,e:'提供帳戶讓別人犯罪，常被認定是詐欺的幫助犯（還可能違反洗錢防制法）。「我不知道他要做什麼」不一定能免責。'},
+ {k:'arson',q:'放火燒「有人住的房子」，跟燒「空曠處的廢棄物」相比，法律評價如何？',o:['一樣重','燒有人住的房子罰得重得多','燒廢棄物比較重'],a:1,e:'放火罪依危險程度分級，燒燬現供人使用的住宅或有人在的建築物，刑度最重。'},
+ {k:'night',q:'警察原則上可以在半夜（日落後、日出前）詢問犯罪嫌疑人嗎？',o:['可以，隨時都行','原則上不行，有例外','只要錄音就可以'],a:1,e:'原則上禁止夜間詢問，避免疲勞訊問。例外像是本人明示同意、或有急迫情形等。'},
+ {k:'record',q:'檢察官或警察訊問、詢問被告時，法律要求要怎麼做？',o:['全程連續錄音','只要寫筆錄就好','被告要求才錄'],a:0,e:'訊問被告應全程連續錄音，必要時還要錄影。筆錄和錄音不符時，可以要求勘驗錄音。'},
+ {k:'confession',q:'被告在警局「自白」認罪了，法院能不能只靠這份自白就判他有罪？',o:['可以','不行，還要其他證據補強','看法官心情'],a:1,e:'自白不能當作有罪判決的唯一證據，必須調查其他證據確認與事實相符；用強暴、脅迫等不正方法取得的自白也不能用。'},
+ {k:'injury',q:'兩人在路邊吵架，一方出拳把對方打到流鼻血，最可能構成？',o:['傷害罪','殺人未遂','公然侮辱'],a:0,e:'故意傷害他人身體或健康就是傷害罪。普通傷害罪是告訴乃論，被害人可以提告，也可以和解撤告。'},
+ {k:'defense',q:'有人持刀衝過來要砍你，你推開他、他跌倒受傷。這種情形法律上叫做？',o:['正當防衛，原則不罰','一定構成傷害罪','互毆，兩個都罰'],a:0,e:'對「現在不法的侵害」，為了保護自己或他人而反擊，是正當防衛，不罰。但防衛過當（例如對方已經倒地還繼續打）仍可能要負責。'},
+ {k:'hearsay',q:'證人在法庭上說「我聽隔壁老王說，他看到被告行兇」。這段話原則上能當證據嗎？',o:['可以，越多人說越可信','原則上不行，這是傳聞','只要老王是好人就行'],a:1,e:'被告以外的人在法庭外的陳述，原則上不得作為證據，叫「傳聞法則」。應該請老王本人到庭接受詰問。'},
+ {k:'usury',q:'趁人急需用錢，借錢給他卻收取跟本金「顯不相當」的超高利息，可能構成？',o:['重利罪','完全合法，你情我願','詐欺罪'],a:0,e:'乘他人急迫、輕率、無經驗或難以求助的處境，收取顯不相當的重利，就是重利罪。民法上超過法定上限的利息也不能請求。'},
+ {k:'murder',q:'殺人罪處罰「未遂」嗎？',o:['處罰','不處罰，沒死就沒事','只罰民事賠償'],a:0,e:'殺人罪的未遂犯也要處罰，連「預備殺人」都有處罰規定。'},
+ {k:'refuse',q:'證人被問到的問題，如果照實回答可能讓自己被追訴，可以怎麼做？',o:['只能照實說','可以拒絕證言','可以說謊'],a:1,e:'證人恐陳述致自己（或配偶、近親屬等）受刑事追訴或處罰時，可以拒絕證言。但說謊就是另一回事，可能構成偽證。'},
+ {k:'objective',q:'檢察官在偵查時發現對被告「有利」的證據，應該怎麼做？',o:['藏起來，反正他是被告','一樣要注意、調查','交給被告自己處理'],a:1,e:'這叫「客觀性義務」：實施刑事訴訟程序的公務員，對被告有利、不利的情形都要一律注意。'},
+ {k:'corroborate',q:'共同被告甲說「是乙叫我做的」。法院可以只憑甲這句話就判乙有罪嗎？',o:['可以','不行，需要其他證據補強','只要甲有具結就可以'],a:1,e:'共同被告、共犯的不利陳述，跟自白一樣，不能當唯一證據，要有其他證據補強。'},
+ {k:'aggfraud',q:'詐騙集團「冒用檢察官名義」打電話騙人匯款，跟一般詐欺相比？',o:['一樣','屬於加重詐欺，罰得更重','因為沒見面所以比較輕'],a:1,e:'冒用政府機關或公務員名義、三人以上共同犯罪、透過網路對公眾散布等詐欺，都是加重詐欺，刑度比普通詐欺重很多。'},
+ {k:'coperp',q:'甲把風、乙進屋偷東西，兩人事前講好要分贓。甲會怎麼被評價？',o:['只是旁觀者','共同正犯','幫助犯而已'],a:1,e:'二人以上共同實行犯罪，彼此分工、有犯意聯絡，都是正犯。把風在很多情況下會被認定是共同正犯。'},
+ {k:'hack',q:'用猜到的密碼登入前男友的 IG 帳號偷看私訊，可能構成？',o:['無故入侵電腦罪','沒事，只是看看','誹謗罪'],a:0,e:'無故輸入他人帳號密碼進入別人的電腦或帳號，就可能構成無故入侵電腦罪（告訴乃論）。'},
+ {k:'data',q:'離職員工臨走前把公司電腦裡的客戶資料全部刪除，造成公司損害，可能構成？',o:['無故刪除電磁紀錄罪','沒事，那是他做的資料','只要賠錢就好'],a:0,e:'無故取得、刪除或變更他人電腦的電磁紀錄，致生損害於公眾或他人，就可能觸法。'},
+ {k:'complaint',q:'「告訴乃論」的罪，意思是？',o:['一定要被害人提告，檢察官才能追訴','警察一定會主動抓','只能民事求償'],a:0,e:'告訴乃論的罪，要有告訴權人提出告訴才能追訴，而且原則上第一審辯論終結前可以撤回告訴。'},
+ {k:'dui',q:'喝酒後開車，吐氣酒精濃度達到每公升多少毫克以上，就可能構成刑法的「不能安全駕駛」？',o:['0.15','0.25','0.55'],a:1,e:'吐氣酒精濃度達每公升 0.25 毫克（或血液 0.05%）以上就構成刑事犯罪；低於這個數字也可能有行政罰。'},
+ {k:'hitrun',q:'開車擦撞機車騎士、對方受傷倒地，駕駛因為害怕就直接開走，可能構成？',o:['只有罰單','肇事逃逸罪','完全沒事，因為不是故意撞'],a:1,e:'發生交通事故致人受傷而逃逸，就是肇事逃逸罪。不管車禍是誰的責任，都應該停車救護、報警。'},
+ {k:'negligence',q:'騎車滑手機沒注意前方，撞傷行人。這最可能是？',o:['過失傷害','故意傷害','殺人未遂'],a:0,e:'應注意、能注意而不注意，造成別人受傷，就是過失傷害（告訴乃論）。'},
+ {k:'defame',q:'在網路上散布「某店家用過期食材」的不實消息，損害店家名譽，可能構成？',o:['誹謗罪','沒事，網路言論自由','偽證罪'],a:0,e:'意圖散布於眾，指摘或傳述足以毀損他人名譽的事，就可能構成誹謗。能證明是真的、且與公共利益有關，才可能不罰。'},
+ {k:'secret',q:'在別人家門口偷裝針孔攝影機，偷錄屋內的非公開活動，可能構成？',o:['妨害秘密罪','沒事，那是公共空間','只違反社區規約'],a:0,e:'無故用工具竊錄他人非公開的活動、言論或身體隱私，就是妨害秘密。'},
+ {k:'wiretap',q:'自己跟別人講電話時偷偷錄音，留作證據，原則上合法嗎？',o:['原則上合法','一律違法','只有律師可以錄'],a:0,e:'通訊的一方自己錄音、而且不是出於不法目的，原則上不罰。但偷錄「別人之間」的對話就可能違法。'},
+ {k:'bribe',q:'公務員收錢，答應幫人做「違背職務」的事（例如放水不開罰），可能構成？',o:['違背職務收賄罪','只是人情世故','只要退錢就沒事'],a:0,e:'公務員對於違背職務的行為要求、期約或收受賄賂，罰得很重；行賄的人也可能觸法。'},
+ {k:'freeproof',q:'證據的「證明力」高低，由誰來判斷？',o:['法官依確信自由判斷','檢察官','由證據數量決定'],a:0,e:'這叫自由心證：證明力由法院本於確信自由判斷，但不得違背經驗法則與論理法則。'},
+ {k:'injurydeath',q:'阿強只想教訓對方，推了一把，對方撞到頭不幸死亡。阿強最可能被論以？',o:['殺人罪','傷害致死罪','過失致死罪以外都不成立'],a:1,e:'本來只有傷害的故意、卻發生死亡結果，是「傷害致死」（加重結果犯），比普通傷害罰得重很多。'},
+ {k:'foresee',q:'「加重結果犯」要處罰較重的結果，前提是行為人對那個結果？',o:['能夠預見','一定要故意','完全不需要任何條件'],a:0,e:'行為人不能預見加重結果發生時，就不適用加重結果的處罰。'},
+ {k:'justified',q:'外科醫師依醫療常規替病人開刀，在病人身上劃了一刀。這會構成傷害罪嗎？',o:['會','原則上不會，屬於業務上的正當行為','要看醫院大小'],a:1,e:'業務上的正當行為不罰。但違反醫療常規、未盡注意義務造成傷害，仍可能有過失責任。'},
+ {k:'attempt',q:'小偷已經撬開別人家的門鎖準備進去，被屋主發現逃走、什麼都沒偷到。這叫？',o:['竊盜既遂','竊盜未遂','完全沒事'],a:1,e:'已經著手實行犯罪、但沒有完成，就是未遂。竊盜罪有處罰未遂犯，得按既遂犯之刑減輕。'},
+ {k:'renounce',q:'甲下毒後良心不安，自己趕快叫救護車把被害人救活了。法律上甲可以？',o:['完全不處罰','減輕或免除其刑','跟殺人既遂一樣罰'],a:1,e:'已著手犯罪，但「因己意」防止結果發生，是中止犯，減輕或免除其刑。'},
+];
+const DQ_KEY='mc-daily-v1';
+const dqGet=()=>{try{return JSON.parse(localStorage.getItem(DQ_KEY))||{}}catch(e){return{}}};
+const dqSet=v=>{try{localStorage.setItem(DQ_KEY,JSON.stringify(v))}catch(e){}};
+const dqDate=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+function dqToday(){   // 依日期決定今天的題目（每個人同一題；打散順序避免相鄰幾天同類型）
+  const d=new Date(),n=Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/864e5);
+  return (n*17)%QZ.length;
+}
+let DQ={i:dqToday(),practice:false};
+function renderDaily(){
+  const el=$('daily');if(!el)return;
+  const S=dqGet(),today=dqDate(),done=S.last===today,q=QZ[DQ.i];
+  const head=`<div class="dqh"><small>⚖️ 今日法庭・每日一題</small><span>${S.streak?`連續 ${S.streak} 天`:''}${S.ok?`・答對 ${S.ok}/${S.total}`:''}</span></div>`;
+  if(done&&!DQ.practice&&DQ.ans==null){   // 今天已經答過：顯示結果＋再來一題
+    const r=QZ[S.qi]||q;
+    el.innerHTML=head+`<p class="dqq">今天的題目已經作答${S.lastOk?'，答對了！':'。'}明天再來挑戰新題目。</p><div class="dqe"><b>${LAWS[r.k].t}（${LAWS[r.k].n}）</b>${r.e}<a href="${blogURL(r.k)}" target="_blank" rel="noopener">📖 看完整白話解說 →</a></div><div class="dqb"><button type="button" class="chip" id="dqMore">再來一題（練習）</button><button type="button" class="chip" id="dqShare">📣 分享今日法庭</button></div>`;
+    $('dqMore').onclick=dqPractice;$('dqShare').onclick=dqShare;return;
+  }
+  const ans=DQ.ans;
+  el.innerHTML=head+`<p class="dqq">${DQ.practice?'【練習】':''}${q.q}</p><div class="dqo">${q.o.map((t,i)=>`<button type="button" data-i="${i}" class="${ans==null?'':i===q.a?'ok':i===ans?'ng':'dim'}" ${ans==null?'':'disabled'}>${'ABC'[i]}．${t}</button>`).join('')}</div>`+
+    (ans==null?'':`<div class="dqe"><b>${ans===q.a?'⭕ 答對了！':'❌ 答錯了'}　${LAWS[q.k].t}（${LAWS[q.k].n}）</b>${q.e}<a href="${blogURL(q.k)}" target="_blank" rel="noopener">📖 看完整白話解說 →</a></div><div class="dqb"><button type="button" class="chip" id="dqMore">再來一題（練習）</button><button type="button" class="chip" id="dqShare">📣 分享今日法庭</button></div>`);
+  el.querySelectorAll('.dqo button').forEach(b=>b.onclick=()=>dqAnswer(+b.dataset.i));
+  if(ans!=null){$('dqMore').onclick=dqPractice;$('dqShare').onclick=dqShare;}
+}
+function dqAnswer(i){
+  if(DQ.ans!=null)return;
+  const q=QZ[DQ.i],ok=i===q.a;DQ.ans=i;
+  try{ok?sfx.get():sfx.bad()}catch(e){}
+  if(!DQ.practice){
+    const S=dqGet(),today=dqDate(),y=new Date();y.setDate(y.getDate()-1);
+    if(S.last!==today){S.streak=S.last===dqDate(y)?(S.streak||0)+1:1;S.best=Math.max(S.best||0,S.streak);S.total=(S.total||0)+1;if(ok)S.ok=(S.ok||0)+1;S.last=today;S.qi=DQ.i;S.lastOk=ok;dqSet(S);}
+    if(!P.laws.includes(q.k)){P.laws.push(q.k);saveP();toast(`法典收錄：${LAWS[q.k].t}`)}   // 答過的法條也收進法典
+    if(typeof stat==='function')try{stat('daily',ok?'ok':'ng')}catch(e){}
+  }
+  renderDaily();
+}
+function dqPractice(){
+  let n;do{n=Math.floor(Math.random()*QZ.length)}while(n===DQ.i&&QZ.length>1);
+  DQ={i:n,practice:true,ans:null};renderDaily();
+  const el=$('daily');if(el&&el.scrollIntoView)el.scrollIntoView({block:'nearest',behavior:'smooth'});
+}
+async function dqShare(){
+  const S=dqGet(),url='https://cashkingw.blogspot.com/p/cash.html';
+  const text=`我在《Cash的午夜檔案室》的「今日法庭」已經連續答題 ${S.streak||1} 天！今天的題目你答得出來嗎？`;
+  try{if(navigator.share){await navigator.share({text,url});return}}catch(e){if(e&&e.name==='AbortError')return}
+  try{await navigator.clipboard.writeText(text+' '+url);toast('分享文字已複製，可以貼到 FB／LINE')}catch(e){toast(url)}
+}
+
+window.DQ_READY=true;renderDaily();
 </script>
 
 </html>
