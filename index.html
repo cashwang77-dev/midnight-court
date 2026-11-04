@@ -538,7 +538,9 @@ const CH = {
   qin:{name:'秦雨柔',pos:'stand',plate:'被告'},
   gao:{name:'高志明',pos:'stand',plate:'告訴人'},
   lan:{name:'藍浩宇',pos:'stand',plate:'被告'},
-  hong:{name:'洪子軒',pos:'stand',plate:'告訴人'}
+  hong:{name:'洪子軒',pos:'stand',plate:'告訴人'},
+  ke:{name:'柯雅婷',pos:'stand',plate:'被告'},
+  pang:{name:'龐國威',pos:'stand',plate:'告訴人'}
 };
 // 台灣法袍：法官藍色滾邊、檢察官紫色滾邊、律師白色滾邊（只在法庭內穿）
 const ROBE={judge:'#3a74d0',pros:'#8a4cc2',zhong:'#8a4cc2',zhou:'#f2efe6'};
@@ -559,7 +561,7 @@ function addRobe(svg,trim){
 // 人物立繪：表情圖（img/ch/<圖id>-<表情>.webp）；還沒有立繪的角色沿用 Avataaars
 // GitHub Pages 與本機測試用相對路徑，Apps Script 版從 GitHub Pages 讀圖
 const ASSET=/github\.io$|^localhost$|^127\./.test(location.hostname)?'':'https://cashwang77-dev.github.io/midnight-court/';
-const PORT={"an":["angry","happy","normal","sad","shock","smug","sweat","think"],"bo":["angry","happy","normal","sad","shock","smug","sweat","think"],"chen":["angry","break","happy","normal","sad","shock","smug","sweat"],"dai":["angry","break","happy","normal","sad","shock","smug","sweat"],"dong":["angry","normal","shock","smug"],"du":["angry","break","happy","normal","sad","shock","smug","sweat"],"fan":["happy","normal","sad","shock"],"fang":["angry","break","happy","normal","sad","shock","smug","sweat"],"fu":["angry","break","happy","normal","sad","shock","smug","sweat"],"gao":["angry","normal","shock","smug"],"ge":["angry","break","happy","normal","sad","shock","smug","sweat"],"guo":["angry","break","happy","normal","sad","shock","smug","sweat"],"he":["happy","normal","sad","shock"],"hong":["angry","normal","shock","smug"],"jian":["happy","normal","sad","sweat"],"jiang":["normal","sad","shock","sweat"],"judge":["angry","gavel","happy","normal","sad","shock","sweat","think"],"kang":["angry","break","happy","normal","sad","shock","smug","sweat"],"lai":["angry","break","happy","normal","sad","shock","smug","sweat"],"lan":["happy","normal","sad","sweat"],"lin":["happy","normal","sad","shock"],"liu":["angry","break","happy","normal","sad","shock","sweat","think"],"lu":["angry","break","happy","normal","sad","shock","smug","sweat"],"luo":["angry","normal","sad","shock"],"ma":["angry","break","happy","normal","sad","shock","smug","sweat"],"mei":["normal","sad","shock","sweat"],"pros":["angry","happy","normal","point","sad","shock","smug","sweat"],"pros_suit":["angry","happy","normal","sad","shock","smug","sweat","think"],"qin":["happy","normal","sad","sweat"],"qiu":["angry","break","happy","normal","sad","shock","smug","sweat"],"shen":["angry","break","happy","normal","sad","shock","smug","sweat"],"tang":["angry","normal","sad","shock"],"tsai":["angry","break","happy","normal","sad","shock","smug","sweat"],"wen":["angry","break","happy","normal","sad","shock","smug","sweat"],"wu":["angry","happy","normal","sad","shock","smug","sweat","think"],"xiang":["angry","break","happy","normal","sad","shock","smug","sweat"],"xu":["happy","normal","sad","sweat"],"ye":["happy","normal","sad","sweat"],"yu":["angry","normal","shock","sweat"],"zhe":["angry","happy","normal","sad","shock","smug","sweat","think"],"zheng":["happy","normal","sad","shock"],"zhong":["angry","normal","point","sad","shock","smug","sweat","think"],"zhou":["angry","happy","normal","point","shock","smug","sweat","think"],"zhou_suit":["angry","happy","normal","point","shock","smug","sweat","think"],"zhuo":["normal","sad","shock","sweat"]};
+const PORT={"an":["angry","happy","normal","sad","shock","smug","sweat","think"],"bo":["angry","happy","normal","sad","shock","smug","sweat","think"],"chen":["angry","break","happy","normal","sad","shock","smug","sweat"],"dai":["angry","break","happy","normal","sad","shock","smug","sweat"],"dong":["angry","normal","shock","smug"],"du":["angry","break","happy","normal","sad","shock","smug","sweat"],"fan":["happy","normal","sad","shock"],"fang":["angry","break","happy","normal","sad","shock","smug","sweat"],"fu":["angry","break","happy","normal","sad","shock","smug","sweat"],"gao":["angry","normal","shock","smug"],"ge":["angry","break","happy","normal","sad","shock","smug","sweat"],"guo":["angry","break","happy","normal","sad","shock","smug","sweat"],"he":["happy","normal","sad","shock"],"hong":["angry","normal","shock","smug"],"jian":["happy","normal","sad","sweat"],"jiang":["normal","sad","shock","sweat"],"judge":["angry","gavel","happy","normal","sad","shock","sweat","think"],"kang":["angry","break","happy","normal","sad","shock","smug","sweat"],"ke":["happy","normal","sad","sweat"],"lai":["angry","break","happy","normal","sad","shock","smug","sweat"],"lan":["happy","normal","sad","sweat"],"lin":["happy","normal","sad","shock"],"liu":["angry","break","happy","normal","sad","shock","sweat","think"],"lu":["angry","break","happy","normal","sad","shock","smug","sweat"],"luo":["angry","normal","sad","shock"],"ma":["angry","break","happy","normal","sad","shock","smug","sweat"],"mei":["normal","sad","shock","sweat"],"pang":["angry","normal","shock","smug"],"pros":["angry","happy","normal","point","sad","shock","smug","sweat"],"pros_suit":["angry","happy","normal","sad","shock","smug","sweat","think"],"qin":["happy","normal","sad","sweat"],"qiu":["angry","break","happy","normal","sad","shock","smug","sweat"],"shen":["angry","break","happy","normal","sad","shock","smug","sweat"],"tang":["angry","normal","sad","shock"],"tsai":["angry","break","happy","normal","sad","shock","smug","sweat"],"wen":["angry","break","happy","normal","sad","shock","smug","sweat"],"wu":["angry","happy","normal","sad","shock","smug","sweat","think"],"xiang":["angry","break","happy","normal","sad","shock","smug","sweat"],"xu":["happy","normal","sad","sweat"],"ye":["happy","normal","sad","sweat"],"yu":["angry","normal","shock","sweat"],"zhe":["angry","happy","normal","sad","shock","smug","sweat","think"],"zheng":["happy","normal","sad","shock"],"zhong":["angry","normal","point","sad","shock","smug","sweat","think"],"zhou":["angry","happy","normal","point","shock","smug","sweat","think"],"zhou_suit":["angry","happy","normal","point","shock","smug","sweat","think"],"zhuo":["normal","sad","shock","sweat"]};
 const MOOD_FALL={break:['shock','sweat'],smug:['happy'],point:['angry'],gavel:['angry'],think:['normal'],sweat:['shock'],angry:['shock']};
 function portKey(id,mood,pos){
   let k=id;
@@ -2961,6 +2963,92 @@ const CASES=[
  }
 },
 
+{id:'m6',mini:1,no:'116年度易字第1688號',name:'會議室的錄音',charge:'妨害秘密（刑法第315條之1）',def:'柯雅婷',
+ blog:'https://cashkingw.blogspot.com/2026/10/_63.html',blogT:'偷錄音合法嗎？錄音存證的法律界線',
+ sum:'業務助理用手機錄下主管要她「把報表改好看一點」的對話，拿去勞工局申訴。主管反告她妨害秘密：「她偷錄我的私人談話。」',
+ verdict:'被告所錄係其本人與告訴人二人間之對話，被告為談話之一方，所錄非「他人」之非公開談話；其錄音目的係蒐集證據向主管機關申訴，非出於不法目的。被告柯雅婷無罪。',
+ ev:{
+  rec6:{n:'錄音檔',i:'phone',d:'10/3 下午 3:12 錄製，長度 6 分 40 秒。\n內容是龐國威與柯雅婷兩個人在會議室的對話。\n龐：「業績報表改好看一點，不改就記過。」\n柯：「這樣是作假，我不能改。」'},
+  room6:{n:'會議室預約表',i:'doc',d:'10/3 15:00–15:30 小會議室\n預約人：龐國威\n與會：柯雅婷'},
+  labor6:{n:'勞工局申訴書',i:'mail',d:'10/4 柯雅婷向勞工局申訴：主管要求竄改業績報表、威脅記過。\n附件：錄音檔一份。\n申訴內容沒有向公司要求任何金錢。'},
+  line6:{n:'LINE 訊息',i:'phone',d:'10/3 下午 3:05 龐國威傳給柯雅婷：\n「三點來小會議室，有事跟妳講。」'}
+ },
+ start:['rec6','room6','line6'],
+ n:{
+ intro:[
+  {scene:'十一月五日　上午十時',sub:'王小棒律師事務所'},
+  {loc:'office'},
+  {c:'ke',m:'sweat',t:'我只是……不想被逼著做假帳。'},
+  {c:'an',t:'柯雅婷小姐，業務助理。她用手機錄下主管要她改報表的對話，拿去勞工局申訴，結果被主管告妨害秘密。'},
+  {c:'zhou',t:'妨害秘密罪處罰的，是「無故」錄下「他人」非公開的活動、談話。'},
+  {law:'secret'},
+  {c:'zhou',t:'另外，通訊保障及監察法也有規定：自己是談話的一方，又不是出於不法目的，錄音原則上不罰。'},
+  {law:'wiretap'},
+  {c:'ke',m:'sad',t:'可是他說，我是躲在門外偷錄他講電話……'},
+  {loc:null},
+  {scene:'十一月二十日　上午十時',sub:'第六法庭'},
+  {c:'judge',t:'現在開庭審理被告柯雅婷妨害秘密案。'},
+  {c:'pros',t:'檢方傳喚告訴人，龐國威。'},
+  {c:'pang',m:'angry',t:'龐國威，業務經理。她偷錄我的私人談話，還拿去給外人聽！'},
+  {c:'judge',t:'證人，請就錄音當天的經過作證。'},
+  {go:'t1'}
+ ],
+ t1:{cross:1,title:'會議室裡的電話',w:'pang',st:[
+  {t:'那天下午三點，我一個人在會議室打電話給我太太。',press:[
+    {c:'zhou',t:'一個人？會議室是誰預約的？'},
+    {c:'pang',m:'smug',t:'我預約的，我想用就用。'}]},
+  {t:'她躲在門外，偷錄了我講電話的內容！',contra:'rec6',solve:'t1s',press:[
+    {c:'zhou',t:'你怎麼知道她在門外？'},
+    {c:'pang',t:'錄音裡有我的聲音，她又不在裡面，不是在門外是在哪？'},
+    {c:'an',t:'律師，錄音檔裡到底有誰的聲音……？'}]},
+  {t:'那是我的家務事，她根本沒資格聽。',press:[
+    {c:'zhou',t:'家務事？錄音裡講的是家裡的事嗎？'},
+    {c:'pang',m:'sweat',t:'……反正是私事。'}]}
+ ]},
+ t1s:[
+  {banner:'異議！'},
+  {c:'zhou',t:'你說你一個人在講電話？請聽這段錄音。'},
+  {c:'zhou',m:'angry',t:'錄音裡有兩個人的聲音——你，和被告柯雅婷。你們在討論的是業績報表，不是家務事！',flash:1},
+  {c:'pang',m:'shock',t:'……！',shake:1},
+  {c:'zhou',t:'再看會議室預約表：與會者，柯雅婷。被告不是躲在門外，她就坐在你對面。'},
+  {c:'pang',m:'angry',t:'就、就算她在場好了！她沒經過我同意就錄音，這不是偷錄是什麼！'},
+  {c:'judge',t:'證人，請說明你認為被告錄音的目的。'},
+  {go:'t2'}
+ ],
+ t2:{cross:1,title:'錄音的目的',w:'pang',st:[
+  {t:'錄音前她沒有問過我，我也不知道她在錄。',press:[
+    {c:'zhou',t:'自己參與的談話，錄音一定要先問對方嗎？'},
+    {c:'pang',m:'smug',t:'當然！這是基本的尊重！'},
+    {c:'an',t:'律師，柯小姐說她隔天就把錄音交給勞工局了……'},
+    {give:'labor6'}]},
+  {t:'她錄音就是想拿來威脅我、跟公司要錢！',contra:'labor6',solve:'t2s',press:[
+    {c:'zhou',t:'她跟公司要了多少錢？'},
+    {c:'pang',m:'sweat',t:'這……她還沒開口，但一定是這個目的。'}]},
+  {t:'這種員工，根本是在設計主管。',press:[
+    {c:'zhou',t:'會議是你約的，LINE 也是你傳的。是誰設計誰？'},
+    {c:'pang',m:'sweat',t:'……'}]}
+ ]},
+ t2s:[
+  {banner:'異議！'},
+  {c:'zhou',t:'想拿錄音勒索公司？請看被告隔天送出的勞工局申訴書。'},
+  {c:'zhou',m:'angry',t:'她把錄音交給主管機關，申訴「主管要求竄改業績報表」——申訴書裡，沒有向公司要求一毛錢！',flash:1},
+  {c:'pang',m:'shock',t:'那、那份申訴……',shake:1,flash:1},
+  {c:'zhou',t:'被告是談話的一方，錄下的是她自己參與的對話；目的是保全證據、依法申訴，不是不法目的。'},
+  {choice:{c:'judge',q:'辯方，自己跟別人談話時錄音，法律上原則怎麼看？',opts:[
+    {t:'只要對方不知道，就一定違法',r:'對方不知道並不是判斷標準，要看是不是談話的一方、目的是否不法。'},
+    {t:'自己是談話的一方，又不是出於不法目的，原則上不罰',ok:1},
+    {t:'只有律師或警察可以錄音',r:'一般人自己參與的對話，也可以錄音存證。'}]}},
+  {c:'pang',m:'sweat',t:'……我只是沒想到，她真的會去申訴。'},
+  {c:'judge',t:'本庭宣判。被告柯雅婷——'},
+  {banner:'無罪',calm:1},
+  {loc:'lobby'},
+  {c:'ke',m:'happy',t:'謝謝律師。勞工局那邊，也已經約公司去協調了。'},
+  {c:'zhou',t:'要注意，錄下「別人之間」的談話就不一樣了——例如偷放錄音筆在會議室、自己人卻不在場。那就可能觸法。'},
+  {c:'an',m:'happy',t:'什麼時候可以錄、錄了要怎麼保存，部落格那篇文章都有整理喔！'},
+  {end:1}
+ ]
+ }
+},
 ];
 
 /* ================= 進度（僅存於本機瀏覽器） ================= */
@@ -3130,7 +3218,7 @@ for(const k in SFXF){const syn=sfx[k];sfx[k]=(...a)=>{
     if(k==='combo')s.playbackRate.value=Math.pow(1.06,Math.min(a[0]||1,8)-1);   // 連擊越多音越高
     s.connect(g).connect(sfxBus);s.start(t)});
 }}
-const FEMALE=new Set(['an','lin','zhuo','jiang','pros','zheng','fan','shen','mei','xu','ye','tang','qin']);
+const FEMALE=new Set(['an','ke','lin','zhuo','jiang','pros','zheng','fan','shen','mei','xu','ye','tang','qin']);
 
 /* ================= 引擎 ================= */
 const $=id=>document.getElementById(id);
