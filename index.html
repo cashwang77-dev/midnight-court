@@ -540,7 +540,9 @@ const CH = {
   lan:{name:'藍浩宇',pos:'stand',plate:'被告'},
   hong:{name:'洪子軒',pos:'stand',plate:'告訴人'},
   ke:{name:'柯雅婷',pos:'stand',plate:'被告'},
-  pang:{name:'龐國威',pos:'stand',plate:'告訴人'}
+  pang:{name:'龐國威',pos:'stand',plate:'告訴人'},
+  zhan:{name:'詹宏文',pos:'stand',plate:'被告'},
+  zou:{name:'鄒建良',pos:'stand',plate:'告訴人'}
 };
 // 台灣法袍：法官藍色滾邊、檢察官紫色滾邊、律師白色滾邊（只在法庭內穿）
 const ROBE={judge:'#3a74d0',pros:'#8a4cc2',zhong:'#8a4cc2',zhou:'#f2efe6'};
@@ -561,7 +563,7 @@ function addRobe(svg,trim){
 // 人物立繪：表情圖（img/ch/<圖id>-<表情>.webp）；還沒有立繪的角色沿用 Avataaars
 // GitHub Pages 與本機測試用相對路徑，Apps Script 版從 GitHub Pages 讀圖
 const ASSET=/github\.io$|^localhost$|^127\./.test(location.hostname)?'':'https://cashwang77-dev.github.io/midnight-court/';
-const PORT={"an":["angry","happy","normal","sad","shock","smug","sweat","think"],"bo":["angry","happy","normal","sad","shock","smug","sweat","think"],"chen":["angry","break","happy","normal","sad","shock","smug","sweat"],"dai":["angry","break","happy","normal","sad","shock","smug","sweat"],"dong":["angry","normal","shock","smug"],"du":["angry","break","happy","normal","sad","shock","smug","sweat"],"fan":["happy","normal","sad","shock"],"fang":["angry","break","happy","normal","sad","shock","smug","sweat"],"fu":["angry","break","happy","normal","sad","shock","smug","sweat"],"gao":["angry","normal","shock","smug"],"ge":["angry","break","happy","normal","sad","shock","smug","sweat"],"guo":["angry","break","happy","normal","sad","shock","smug","sweat"],"he":["happy","normal","sad","shock"],"hong":["angry","normal","shock","smug"],"jian":["happy","normal","sad","sweat"],"jiang":["normal","sad","shock","sweat"],"judge":["angry","gavel","happy","normal","sad","shock","sweat","think"],"kang":["angry","break","happy","normal","sad","shock","smug","sweat"],"ke":["happy","normal","sad","sweat"],"lai":["angry","break","happy","normal","sad","shock","smug","sweat"],"lan":["happy","normal","sad","sweat"],"lin":["happy","normal","sad","shock"],"liu":["angry","break","happy","normal","sad","shock","sweat","think"],"lu":["angry","break","happy","normal","sad","shock","smug","sweat"],"luo":["angry","normal","sad","shock"],"ma":["angry","break","happy","normal","sad","shock","smug","sweat"],"mei":["normal","sad","shock","sweat"],"pang":["angry","normal","shock","smug"],"pros":["angry","happy","normal","point","sad","shock","smug","sweat"],"pros_suit":["angry","happy","normal","sad","shock","smug","sweat","think"],"qin":["happy","normal","sad","sweat"],"qiu":["angry","break","happy","normal","sad","shock","smug","sweat"],"shen":["angry","break","happy","normal","sad","shock","smug","sweat"],"tang":["angry","normal","sad","shock"],"tsai":["angry","break","happy","normal","sad","shock","smug","sweat"],"wen":["angry","break","happy","normal","sad","shock","smug","sweat"],"wu":["angry","happy","normal","sad","shock","smug","sweat","think"],"xiang":["angry","break","happy","normal","sad","shock","smug","sweat"],"xu":["happy","normal","sad","sweat"],"ye":["happy","normal","sad","sweat"],"yu":["angry","normal","shock","sweat"],"zhe":["angry","happy","normal","sad","shock","smug","sweat","think"],"zheng":["happy","normal","sad","shock"],"zhong":["angry","normal","point","sad","shock","smug","sweat","think"],"zhou":["angry","happy","normal","point","shock","smug","sweat","think"],"zhou_suit":["angry","happy","normal","point","shock","smug","sweat","think"],"zhuo":["normal","sad","shock","sweat"]};
+const PORT={"an":["angry","happy","normal","sad","shock","smug","sweat","think"],"bo":["angry","happy","normal","sad","shock","smug","sweat","think"],"chen":["angry","break","happy","normal","sad","shock","smug","sweat"],"dai":["angry","break","happy","normal","sad","shock","smug","sweat"],"dong":["angry","normal","shock","smug"],"du":["angry","break","happy","normal","sad","shock","smug","sweat"],"fan":["happy","normal","sad","shock"],"fang":["angry","break","happy","normal","sad","shock","smug","sweat"],"fu":["angry","break","happy","normal","sad","shock","smug","sweat"],"gao":["angry","normal","shock","smug"],"ge":["angry","break","happy","normal","sad","shock","smug","sweat"],"guo":["angry","break","happy","normal","sad","shock","smug","sweat"],"he":["happy","normal","sad","shock"],"hong":["angry","normal","shock","smug"],"jian":["happy","normal","sad","sweat"],"jiang":["normal","sad","shock","sweat"],"judge":["angry","gavel","happy","normal","sad","shock","sweat","think"],"kang":["angry","break","happy","normal","sad","shock","smug","sweat"],"ke":["happy","normal","sad","sweat"],"lai":["angry","break","happy","normal","sad","shock","smug","sweat"],"lan":["happy","normal","sad","sweat"],"lin":["happy","normal","sad","shock"],"liu":["angry","break","happy","normal","sad","shock","sweat","think"],"lu":["angry","break","happy","normal","sad","shock","smug","sweat"],"luo":["angry","normal","sad","shock"],"ma":["angry","break","happy","normal","sad","shock","smug","sweat"],"mei":["normal","sad","shock","sweat"],"pang":["angry","normal","shock","smug"],"pros":["angry","happy","normal","point","sad","shock","smug","sweat"],"pros_suit":["angry","happy","normal","sad","shock","smug","sweat","think"],"qin":["happy","normal","sad","sweat"],"qiu":["angry","break","happy","normal","sad","shock","smug","sweat"],"shen":["angry","break","happy","normal","sad","shock","smug","sweat"],"tang":["angry","normal","sad","shock"],"tsai":["angry","break","happy","normal","sad","shock","smug","sweat"],"wen":["angry","break","happy","normal","sad","shock","smug","sweat"],"wu":["angry","happy","normal","sad","shock","smug","sweat","think"],"xiang":["angry","break","happy","normal","sad","shock","smug","sweat"],"xu":["happy","normal","sad","sweat"],"ye":["happy","normal","sad","sweat"],"yu":["angry","normal","shock","sweat"],"zhan":["happy","normal","sad","sweat"],"zhe":["angry","happy","normal","sad","shock","smug","sweat","think"],"zheng":["happy","normal","sad","shock"],"zhong":["angry","normal","point","sad","shock","smug","sweat","think"],"zhou":["angry","happy","normal","point","shock","smug","sweat","think"],"zhou_suit":["angry","happy","normal","point","shock","smug","sweat","think"],"zhuo":["normal","sad","shock","sweat"],"zou":["angry","normal","shock","smug"]};
 const MOOD_FALL={break:['shock','sweat'],smug:['happy'],point:['angry'],gavel:['angry'],think:['normal'],sweat:['shock'],angry:['shock']};
 function portKey(id,mood,pos){
   let k=id;
@@ -3049,6 +3051,92 @@ const CASES=[
  ]
  }
 },
+{id:'m7',mini:1,no:'116年度易字第1734號',name:'深夜的便利商店',charge:'傷害（刑法第277條）',def:'詹宏文',
+ blog:'https://cashkingw.blogspot.com/2026/10/_52.html',blogT:'被攻擊時反擊會變被告嗎？正當防衛的實際判斷',
+ sum:'深夜的便利商店裡，外送員被喝醉的客人拿酒瓶攻擊。他把對方推開，對方跌倒擦傷，反過來告他傷害。',
+ verdict:'告訴人持酒瓶朝被告揮擊，屬現在不法之侵害；被告徒手推開告訴人後即退至店外報警，未再追擊，其防衛行為係為排除侵害所必要，並無過當。被告詹宏文之行為屬正當防衛，無罪。',
+ ev:{
+  cctv7:{n:'店內監視器畫面',i:'cam',d:'01:12:05 鄒建良拿起啤酒瓶，朝詹宏文揮過去。\n01:12:07 詹宏文用雙手把鄒推開，鄒跌坐在地上。\n01:12:15 詹宏文退出店外。'},
+  call7:{n:'110 報案紀錄',i:'phone',d:'01:12:40 詹宏文撥打 110：\n「有人拿酒瓶要打我，我在店門口，請快來。」\n通話時一直站在店門口的騎樓下。'},
+  med7:{n:'診斷證明書',i:'med',d:'鄒建良：右手肘擦傷 2 公分。\n就醫時呼氣有明顯酒味。'},
+  bottle7:{n:'摔破的啤酒瓶',i:'bat',d:'在店內冷藏櫃前找到。\n瓶身上驗出鄒建良的指紋。'},
+  order7:{n:'外送訂單',i:'biz',d:'01:08 接單，取貨地點：本便利商店。\n詹宏文 01:11 抵達取貨。'}
+ },
+ start:['med7','bottle7','order7','call7'],
+ n:{
+ intro:[
+  {scene:'十一月十二日　下午二時',sub:'王小棒律師事務所'},
+  {loc:'office'},
+  {c:'zhan',m:'sweat',t:'我只是去拿外送的東西……他突然拿酒瓶衝過來。'},
+  {c:'an',t:'詹宏文先生，外送員。凌晨一點在便利商店被喝醉的客人攻擊，他把對方推開，對方跌倒擦傷，告他傷害。'},
+  {c:'zhou',t:'推倒別人、讓對方受傷，表面上看起來是傷害罪。'},
+  {law:'injury'},
+  {c:'zhou',t:'但如果是為了擋下「正在發生」的不法攻擊，就可能是正當防衛——前提是反擊沒有超過必要的程度。'},
+  {law:'defense'},
+  {c:'zhan',m:'sad',t:'他說是我先動手的……店員那時候剛好在倉庫，沒有人看到。'},
+  {loc:null},
+  {scene:'十一月二十七日　上午十時',sub:'第六法庭'},
+  {c:'judge',t:'現在開庭審理被告詹宏文傷害案。'},
+  {c:'pros',t:'檢方傳喚告訴人，鄒建良。'},
+  {c:'zou',m:'angry',t:'鄒建良。我好好地在店裡買東西，這個外送的突然把我推倒！'},
+  {c:'judge',t:'證人，請就事發經過作證。'},
+  {go:'t1'}
+ ],
+ t1:{cross:1,title:'凌晨一點十二分',w:'zou',st:[
+  {t:'我在冷藏櫃前面挑啤酒，他從後面撞過來。',press:[
+    {c:'zhou',t:'你那時候喝了多少酒？'},
+    {c:'zou',m:'smug',t:'兩三罐而已，我很清醒。'}]},
+  {t:'我什麼都沒做，他一句話也不說就把我推倒！',contra:'bottle7',solve:'t1s',press:[
+    {c:'zhou',t:'你手上當時拿著什麼？'},
+    {c:'zou',t:'沒有啊，我兩手空空。'},
+    {c:'an',t:'律師，冷藏櫃前面那個摔破的瓶子……'}]},
+  {t:'我跌在地上，手肘都流血了。',press:[
+    {c:'zhou',t:'傷勢多嚴重？'},
+    {c:'zou',m:'sweat',t:'……擦傷兩公分。'}]}
+ ]},
+ t1s:[
+  {banner:'異議！'},
+  {c:'zhou',t:'兩手空空？那冷藏櫃前這支摔破的啤酒瓶，瓶身上為什麼有你的指紋？'},
+  {c:'zou',m:'shock',t:'……！',shake:1},
+  {c:'an',t:'律師！店長把當晚的監視器畫面調出來了！'},
+  {give:'cctv7'},
+  {c:'zou',m:'angry',t:'就、就算我拿著瓶子好了！他把我推倒以後，還衝出去追著我要打！'},
+  {c:'judge',t:'證人，請說明被告推倒你之後的行為。'},
+  {go:'t2'}
+ ],
+ t2:{cross:1,title:'推開之後',w:'zou',st:[
+  {t:'是他先瞪我的，我只是拿瓶子嚇嚇他。',contra:'cctv7',solve:'t2s',press:[
+    {c:'zhou',t:'嚇嚇他？瓶子有沒有揮出去？'},
+    {c:'zou',m:'sweat',t:'……我不記得了。'}]},
+  {t:'他把我推倒以後，還追出去要打我。',press:[
+    {c:'zhou',t:'追出去？他出去之後做了什麼？'},
+    {c:'zou',t:'我、我那時候倒在地上，沒看清楚。'},
+    {c:'an',t:'律師，報案紀錄上說他一直站在店門口……'}]},
+  {t:'他就是故意要讓我受傷。',press:[
+    {c:'zhou',t:'他推了你幾次？'},
+    {c:'zou',m:'sweat',t:'……一次。'}]}
+ ]},
+ t2s:[
+  {banner:'異議！'},
+  {c:'zhou',t:'只是拿瓶子嚇嚇他？請看監視器畫面。'},
+  {c:'zhou',m:'angry',t:'一點十二分零五秒，你拿起啤酒瓶朝被告揮過去。兩秒後，被告才用雙手把你推開——這是擋下攻擊，不是攻擊！',flash:1},
+  {c:'zou',m:'shock',t:'那、那個……',shake:1,flash:1},
+  {c:'zhou',t:'推開之後，被告沒有追打，而是退到店外，一分鐘內打 110 報警。他做的，只是保護自己必要的事。'},
+  {choice:{c:'judge',q:'辯方，被攻擊時反擊，什麼情況是正當防衛？',opts:[
+    {t:'只要對方先動手，怎麼打回去都可以',r:'反擊超過必要的程度，會變成「防衛過當」，仍然可能要負責。'},
+    {t:'對現在不法的侵害，為了保護自己而做出必要的反擊',ok:1},
+    {t:'一定要等警察來，自己不能反擊',r:'面對正在發生的攻擊，法律允許必要的自我防衛。'}]}},
+  {c:'zou',m:'sweat',t:'……我那天喝太多了。'},
+  {c:'judge',t:'本庭宣判。被告詹宏文——'},
+  {banner:'無罪',calm:1},
+  {loc:'lobby'},
+  {c:'zhan',m:'happy',t:'謝謝律師。我本來以為，被打了還要賠錢。'},
+  {c:'zhou',t:'你做對了兩件事：推開以後就離開、而且馬上報警。如果對方倒地了還繼續打，就可能變成防衛過當。'},
+  {c:'an',m:'happy',t:'被攻擊時怎麼反擊才不會變被告，部落格那篇文章都有整理喔！'},
+  {end:1}
+ ]
+ }
+}
 ];
 
 /* ================= 進度（僅存於本機瀏覽器） ================= */
