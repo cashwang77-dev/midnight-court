@@ -4273,5 +4273,232 @@ window.DQ_READY=true;renderDaily();
 
 </script>
 <!--/FX3-->
+<!--FX4-->
+<script>
+/* ================= fx4：大升級第3階段「現場調查」（2026-11-12） =================
+   開庭前到案發現場：點畫面上可疑的地方調查、詢問在場的人，找到的證物才能帶上法庭。
+   設定表 INV（案件 id → 現場）；take＝開場不給、要在現場找的證物；need＝全部找到才能「前往法庭」。
+   觸發點：案件 intro 裡第一個 {loc:null}（離開事務所、準備開庭）之前。
+   ?inv=0 關閉（證物照舊開場就有）。自動通關：mode==='inv' 時呼叫 __fx4.auto()。
+   由 apply_fx2.py 插進主檔（<!--FX4--> 區塊）。 */
+(() => {
+  const $ = id => document.getElementById(id);
+  const Q = new URLSearchParams(location.search);
+  if (Q.get('inv') === '0') return;
+
+  const INV = {
+    m7: {
+      bg: 'inv_m7', title: '案發現場　深夜的便利商店', sub: '十一月十三日　凌晨一時',
+      take: ['bottle7', 'call7', 'order7'],
+      intro: [
+        { c: 'an', m: 'think', t: '律師，開庭前我們先到便利商店看看吧。事情是在同一個時間發生的，現場應該還留著什麼。' },
+        { c: 'zhou', t: '點畫面上可疑的地方調查，也可以問問在場的人。找到的證物，才能帶上法庭。' }
+      ],
+      spots: [
+        { id: 'bottle', x: 77, y: 79, w: 16, h: 17, label: '冷藏櫃前的碎酒瓶', ev: 'bottle7', lines: [
+          { c: 'an', m: 'shock', t: '律師！冷藏櫃前面有一支摔破的啤酒瓶，店長說那天晚上之後就沒人動過。' },
+          { c: 'zhou', m: 'think', t: '鄒建良說他「兩手空空」……請鑑識驗一下瓶身上的指紋。' },
+          { c: 'an', m: 'happy', t: '結果出來了——瓶身上驗出的是鄒建良的指紋！' }] },
+        { id: 'bag', x: 19, y: 65, w: 12, h: 19, label: '門邊的外送保溫袋', ev: 'order7', lines: [
+          { c: 'zhou', t: '這是詹先生的外送保溫袋，事發後一直寄放在店裡。' },
+          { c: 'an', t: '袋子外面夾著當晚的訂單：01:08 接單，01:11 抵達取貨。' },
+          { c: 'zhou', m: 'think', t: '他是來工作的，進店才一分鐘就出事了。' }] },
+        { id: 'cam', x: 31, y: 15, w: 6, h: 9, label: '天花板的監視器', lines: [
+          { c: 'an', t: '櫃台上方有一台監視器，正好拍得到冷藏櫃那一側。' },
+          { c: 'zhou', m: 'think', t: '如果能調出畫面，誰先動手就一清二楚了。' },
+          { c: 'an', m: 'sweat', t: '店長說主機要總公司授權才能匯出……他會想辦法，開庭時再看看。' }] },
+        { id: 'fridge', x: 76, y: 24, w: 24, h: 52, label: '冷藏櫃', lines: [
+          { c: 'an', t: '啤酒那一格少了一瓶，價格標籤還在。' },
+          { c: 'zhou', t: '酒瓶是店裡的商品——是當場從冷藏櫃拿出來的，不是誰帶進來的。' }] },
+        { id: 'door', x: 1, y: 12, w: 22, h: 70, label: '自動門與騎樓', lines: [
+          { c: 'zhou', t: '自動門外面就是騎樓。詹先生說他推開對方以後，就退到這裡。' },
+          { c: 'an', m: 'think', t: '從冷藏櫃走到門口，大概只要七、八秒吧。' }] },
+        { id: 'room', x: 39, y: 31, w: 10, h: 13, label: '倉庫的門', lines: [
+          { c: 'an', t: '收銀台後面是倉庫。事發時店員正在裡面補貨。' },
+          { c: 'zhou', t: '所以店裡沒有目擊者……更要靠現場留下來的東西說話。' }] },
+        { id: 'reg', x: 40, y: 46, w: 7, h: 12, label: '收銀台', lines: [
+          { c: 'an', t: '收銀台上還放著詹先生要取的那袋外送餐點，一直沒有被拿走。' }] }
+      ],
+      talk: [
+        { id: 'zhan', c: 'zhan', label: '詢問詹宏文', ev: 'call7', lines: [
+          { c: 'zhou', t: '詹先生，推開他之後，你做了什麼？' },
+          { c: 'zhan', m: 'sweat', t: '我、我馬上退到門口外面，怕他又拿東西衝過來……然後就打 110。' },
+          { c: 'zhan', t: '我手機裡有通話紀錄，你們看——01:12:40。我那時一直站在騎樓下面等警察。' },
+          { c: 'an', m: 'happy', t: '我跟警察局調了報案紀錄，時間和內容都對得上！' }] },
+        { id: 'clerk', n: '店員', label: '詢問店員', lines: [
+          { n: '店員', t: '我那時候在倉庫補貨，先聽到有人大吼，接著是玻璃摔碎的聲音。' },
+          { n: '店員', t: '我跑出來的時候，那個外送的已經站在門外講電話了，喝醉的那位坐在冷藏櫃前面。' },
+          { c: 'zhou', m: 'think', t: '「已經在門外講電話」……也就是說，他沒有追打對方。' }] }
+      ]
+    }
+  };
+  window.FX4_INV = INV;
+
+  /* 開場證物：要在現場找的先拿掉 */
+  const _newGame = newGame;
+  newGame = function (ci) {
+    const g = _newGame(ci), d = INV[CASES[ci].id];
+    if (d) { g.ev = g.ev.filter(k => !d.take.includes(k)); g.seen = g.seen.filter(k => !d.take.includes(k)); }
+    return g;
+  };
+
+  ACH.push(['inv1', '🔎', '實地勘驗', '第一次在案發現場找齊所有證物']);
+
+  const css = `
+#fx4{position:fixed;inset:0;z-index:60;background:#07080c;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#eee;font-family:inherit}
+#fx4[hidden]{display:none}
+#fx4 .fx4top{width:var(--w);display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:6px 2px;letter-spacing:.05em}
+#fx4 .fx4top b{font-size:clamp(15px,2.2vw,20px);color:#f3d48a}
+#fx4 .fx4top span{font-size:13px;color:#aab}
+#fx4 .fx4prog{font-size:13px;color:#d0a54c;white-space:nowrap}
+#fx4 .fx4sc{position:relative;width:var(--w);aspect-ratio:1376/768;background:#000 center/cover no-repeat;border-radius:6px;overflow:hidden;box-shadow:0 0 0 1px #333,0 10px 40px #000}
+#fx4 .fx4sc::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.55))}
+#fx4 .fx4hs{position:absolute;border:0;background:transparent;cursor:pointer;padding:0;border-radius:8px;z-index:2}
+#fx4 .fx4hs:hover,#fx4 .fx4hs:focus-visible{background:rgba(243,212,138,.12);outline:2px solid rgba(243,212,138,.7)}
+#fx4 .fx4hs i{position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;border:2px solid #f3d48a;background:rgba(0,0,0,.45);font-style:normal;font-size:13px;line-height:22px;text-align:center;animation:fx4pulse 1.6s ease-in-out infinite}
+#fx4 .fx4hs.done i{animation:none;border-color:#7a8;opacity:.75}
+#fx4 .fx4hs.done.ev i{border-color:#6fb3ff}
+#fx4 .fx4hs em{position:absolute;left:50%;top:calc(50% + 16px);transform:translateX(-50%);white-space:nowrap;font-style:normal;font-size:12px;background:rgba(0,0,0,.7);padding:1px 6px;border-radius:3px;opacity:0;transition:opacity .15s}
+#fx4 .fx4hs:hover em,#fx4 .fx4hs:focus-visible em,#fx4 .fx4hs.done em{opacity:1}
+@keyframes fx4pulse{50%{transform:scale(1.25);box-shadow:0 0 14px rgba(243,212,138,.8)}}
+#fx4 .fx4bar{width:var(--w);display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 0}
+#fx4 .fx4bar button{font:inherit;font-size:14px;padding:8px 14px;border-radius:4px;border:1px solid #556;background:#1a1d27;color:#eee;cursor:pointer}
+#fx4 .fx4bar button.done{color:#9ab;border-color:#3a4a55}
+#fx4 .fx4bar .fx4go{margin-left:auto;background:#7a1a22;border-color:#b0242e;font-weight:bold}
+#fx4 .fx4bar .fx4go:disabled{opacity:.4;cursor:not-allowed}
+#fx4 .fx4bar .fx4ev{background:#22303d}
+#fx4 .fx4dlg{position:absolute;left:2%;right:2%;bottom:3%;z-index:5;display:flex;gap:12px;align-items:flex-end;cursor:pointer}
+#fx4 .fx4dlg[hidden]{display:none}
+#fx4 .fx4dlg img{width:clamp(70px,14%,150px);aspect-ratio:3/4;object-fit:cover;object-position:top;border-radius:4px;background:#222;flex:none}
+#fx4 .fx4dlg img[hidden]{display:none}
+#fx4 .fx4box{flex:1;background:rgba(10,12,20,.9);border:1px solid #d0a54c;border-radius:6px;padding:10px 14px;min-height:4.2em}
+#fx4 .fx4box b{display:block;color:#f3d48a;font-size:14px;margin-bottom:3px}
+#fx4 .fx4box p{margin:0;font-size:clamp(14px,1.8vw,17px);line-height:1.6}
+#fx4 .fx4box p::after{content:' ▼';font-size:11px;color:#d0a54c;animation:fx4pulse 1s infinite}
+#fx4 .fx4got{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);z-index:6;background:rgba(10,20,35,.95);border:2px solid #6fb3ff;border-radius:8px;padding:14px 22px;text-align:center;box-shadow:0 0 30px rgba(111,179,255,.6);pointer-events:none;animation:fx4in .35s ease-out}
+#fx4 .fx4got small{display:block;color:#6fb3ff;font-size:12px;letter-spacing:.2em}
+#fx4 .fx4got strong{font-size:20px}
+@keyframes fx4in{from{transform:translate(-50%,-50%) scale(.6);opacity:0}}
+body.fx4on .modal,body.fx4on .achToast{z-index:80 !important}
+@media (max-height:520px){#fx4 .fx4top span{display:none}#fx4 .fx4top{padding:2px}#fx4 .fx4bar{padding:5px 0;gap:6px}#fx4 .fx4bar button{padding:5px 10px;font-size:13px}}`;
+  const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
+
+  const ov = document.createElement('div'); ov.id = 'fx4'; ov.hidden = true;
+  ov.innerHTML = `<div class="fx4top"><div><b></b> <span></span></div><div class="fx4prog"></div></div>
+<div class="fx4sc"><div class="fx4dlg" hidden><img alt=""><div class="fx4box"><b></b><p></p></div></div></div>
+<div class="fx4bar"></div>`;
+  document.body.appendChild(ov);
+  const sc = ov.querySelector('.fx4sc'), dlg = ov.querySelector('.fx4dlg'), bar = ov.querySelector('.fx4bar');
+  const fit = () => { const w = Math.min(innerWidth - 16, (innerHeight - (innerHeight < 520 ? 80 : 110)) * 1376 / 768, 1280); ov.style.setProperty('--w', Math.max(280, w) + 'px'); };
+  addEventListener('resize', fit);
+
+  let D = null, done = null, q = [], qDone = null, prevMode = null;
+  const nameOf = l => l.n || (CH[l.c] && CH[l.c].name) || '';
+  function say(lines, cb) { q = lines.slice(); qDone = cb; nextLine(); }
+  function nextLine() {
+    const ln = q.shift();
+    if (!ln) { dlg.hidden = true; const f = qDone; qDone = null; f && f(); return; }
+    dlg.hidden = false;
+    const img = dlg.querySelector('img'), k = ln.c && portKey(ln.c, ln.m || 'normal', 'lobby');
+    if (k) { img.src = portURL(k); img.hidden = false; } else img.hidden = true;
+    dlg.querySelector('b').textContent = nameOf(ln);
+    dlg.querySelector('p').textContent = ln.t;
+    try { sfx.tick(); } catch (e) { }
+  }
+  dlg.addEventListener('click', e => { e.stopPropagation(); nextLine(); });
+  document.addEventListener('keydown', e => {
+    if (ov.hidden) return;
+    if (!$('modal').hidden || !$('lawModal').hidden) return;
+    if ((e.key === 'Enter' || e.key === ' ') && !dlg.hidden) { e.preventDefault(); e.stopImmediatePropagation(); nextLine(); }
+    else if (e.key === 'Enter' || e.key === ' ' || e.key.startsWith('Arrow')) { if (e.target.tagName !== 'BUTTON') e.stopImmediatePropagation(); }
+  }, true);
+
+  const state = () => (G.inv = G.inv || { seen: [] });
+  const found = () => D.take.filter(k => G.ev.includes(k)).length;
+  const busy = () => !dlg.hidden;
+
+  function give(k) {
+    if (!k || G.ev.includes(k)) return;
+    G.ev.push(k); if (!G.seen.includes(k)) G.seen.push(k);
+    G.score += 100;
+    try { sfx.get(); } catch (e) { }
+    const g = document.createElement('div'); g.className = 'fx4got';
+    g.innerHTML = `<small>獲得證物</small><strong></strong>`; g.querySelector('strong').textContent = C.ev[k].n;
+    sc.appendChild(g); setTimeout(() => g.remove(), 1500);
+  }
+  function check(item) {
+    if (busy()) return;
+    const s = state(), first = !s.seen.includes(item.id);
+    if (first) s.seen.push(item.id);
+    say(item.lines, () => { if (item.ev && !G.ev.includes(item.ev)) give(item.ev); render(); });
+    render();
+  }
+  function render() {
+    const s = state();
+    ov.querySelector('.fx4top b').textContent = D.title;
+    ov.querySelector('.fx4top span').textContent = D.sub;
+    ov.querySelector('.fx4prog').textContent = `證物 ${found()}/${D.take.length}　調查 ${s.seen.length}/${D.spots.length + D.talk.length}`;
+    sc.querySelectorAll('.fx4hs').forEach(b => b.remove());
+    for (const it of D.spots) {
+      const b = document.createElement('button'); b.type = 'button';
+      const dn = s.seen.includes(it.id);
+      b.className = 'fx4hs' + (dn ? ' done' : '') + (dn && it.ev ? ' ev' : '');
+      b.style.cssText = `left:${it.x}%;top:${it.y}%;width:${it.w}%;height:${it.h}%`;
+      b.setAttribute('aria-label', '調查：' + it.label);
+      b.innerHTML = `<i>${dn ? (it.ev ? '★' : '✓') : '?'}</i><em></em>`; b.querySelector('em').textContent = it.label;
+      b.onclick = () => check(it);
+      sc.insertBefore(b, dlg);
+    }
+    bar.innerHTML = '';
+    for (const t of D.talk) {
+      const b = document.createElement('button'); b.type = 'button';
+      b.textContent = '💬 ' + t.label; if (s.seen.includes(t.id)) b.className = 'done';
+      b.onclick = () => check(t); bar.appendChild(b);
+    }
+    const e = document.createElement('button'); e.type = 'button'; e.className = 'fx4ev'; e.textContent = '📁 證物';
+    e.onclick = () => openEv(); bar.appendChild(e);
+    const go = document.createElement('button'); go.type = 'button'; go.className = 'fx4go';
+    const left = D.take.length - found();
+    go.textContent = left ? `⚖ 前往法庭（還差 ${left} 件證物）` : '⚖ 前往法庭';
+    go.disabled = !!left; go.onclick = () => { if (!busy()) close(); };
+    bar.appendChild(go);
+  }
+  function open(d, cb) {
+    D = d; done = cb; prevMode = mode; mode = 'inv'; showCtrl(null);
+    sc.style.backgroundImage = `url(${ASSET}img/bg/${d.bg}.webp)`;
+    fit(); ov.hidden = false; document.body.classList.add('fx4on'); render();
+    try { music('lobby'); } catch (e) { }
+    if (!state().intro) { state().intro = 1; say(d.intro, render); }
+  }
+  function close() {
+    ov.hidden = true; dlg.hidden = true; q = []; document.body.classList.remove('fx4on');
+    try { unlock('inv1'); } catch (e) { }
+    G.invDone = 1; mode = 'dialog';
+    const f = done; done = null; f && f();
+  }
+
+  const _exec = exec;
+  exec = function (s) {
+    if (s && 'loc' in s && s.loc === null && C && INV[C.id] && !G.invDone && !G.cp?.node?.startsWith('t')) {
+      const d = INV[C.id]; open(d, () => _exec(s)); return;
+    }
+    return _exec(s);
+  };
+
+  window.__fx4 = {
+    INV, open, close,
+    auto() {   // 自動通關／測試：調查全部、找齊證物、前往法庭
+      if (ov.hidden || !D) return;
+      q = []; dlg.hidden = true; ov.querySelectorAll('.fx4got').forEach(g => g.remove());
+      const s = state();
+      for (const it of [...D.spots, ...D.talk]) { if (!s.seen.includes(it.id)) s.seen.push(it.id); if (it.ev) give(it.ev); }
+      ov.querySelectorAll('.fx4got').forEach(g => g.remove());
+      close();
+    }
+  };
+})();
+
+</script>
+<!--/FX4-->
 
 </html>
