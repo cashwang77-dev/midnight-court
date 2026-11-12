@@ -4121,5 +4121,157 @@ window.DQ_READY=true;renderDaily();
 
 </script>
 <!--/FX2-->
+<!--FX3-->
+<script>
+/* ================= fx3：大升級第2階段「詰問玩法加深」（2026-11-12） =================
+   ① 證物組合推理：證物視窗「🔍 組合推理」→ 選兩件 → 有關聯就得到「推理筆記」新證物（+300 分）；全部找到解鎖成就「推理家」。
+      組合表 COMBO（各案件 id → [[證物A, 證物B, 新證物 key, 名稱, 說明]]），新證物在載入時加進 CASES[].ev。
+   ② 限時追擊：每案最後一場詰問有 100 秒計時（對話中暫停），剩 20 秒變紅＋心跳；時間到扣 1 信任、重設 60 秒。?timer=0 關閉。
+   ③ 錯誤出示：證人／檢方的反應改成隨機多種；同一句連錯 2 次，小安提醒「先追問」（不給答案；挑戰模式不提醒）。
+   由 apply_fx2.py 一起插進主檔（<!--FX3--> 區塊）。 */
+(() => {
+  const $ = id => document.getElementById(id);
+  const Q = new URLSearchParams(location.search);
+
+  /* ---------- ① 組合推理 ---------- */
+  const COMBO = {
+    m1: [['cctv1', 'receipt1', 'cb_m1a', '推理：撿到後馬上送警', '21:15 撿起皮夾，21:18 往派出所方向離開，21:40 就拿到拾得物收據。\n從撿到到送警只隔 25 分鐘——沒有要占為己有的意思。'],
+         ['atm1', 'receipt1', 'cb_m1b', '推理：皮夾裡本來就只有三千多', '20:50 只領了 NT$3,000，派出所點收的現金是 NT$3,200。\n數字對得上，根本沒有「兩萬塊」。']],
+    m2: [['receipt2', 'photo2', 'cb_m2a', '推理：照片是在店裡拍的', '12:05 在董家小館付款，12:31 拍下照片，湯碗上印著「董家」。\n她確實是客人，照片也是當天在店裡拍的。']],
+    m3: [['ad', 'kit', 'cb_m3a', '推理：典型的家庭代工騙局', '「寄提款卡才能發薪」＋查無此公司的大印。\n這是詐騙集團騙取人頭帳戶的常見手法，被告自己也是被騙的人。'],
+         ['bank3', 'report3', 'cb_m3b', '推理：她一發現就去報案', '10/2 錢被匯入又被提走，10/3 早上她就到派出所報案。\n比警方的通知書還早一天，不是事後補報。']],
+    m4: [['hosp4', 'iou4', 'cb_m4a', '推理：借錢的理由是真的', '2/27 母親心導管手術自費 NT$186,000，兩天後 3/1 借了 NT$200,000。\n時間與金額都對得上。'],
+         ['transfer4', 'layoff4', 'cb_m4b', '推理：停止還款是因為失業', '4–6 月都準時還款，6/20 公司歇業被資遣，7/1 才開始沒有匯款。\n不是一開始就不打算還。']],
+    m5: [['shot5', 'export5', 'cb_m5a', '推理：截圖的群組名稱對不上', '截圖上方顯示「粉絲群（312）」，官方匯出卻是一對一聊天。\n截圖的畫面和實際對話地點不一樣。'],
+         ['shot5', 'notice5', 'cb_m5b', '推理：是告訴人自己公開的', '私訊只有兩個人看得到。是洪子軒 00:05 自己把截圖貼進粉絲群記事本，大家才看到。']],
+    m6: [['room6', 'line6', 'cb_m6a', '推理：會議是主管自己約的', '15:05 龐國威傳訊叫柯雅婷「三點來小會議室」，預約人也是他。\n柯雅婷是對話的一方，不是在門外偷聽。']],
+    m7: [['cctv7', 'call7', 'cb_m7a', '推理：推開後就離開、馬上報警', '01:12:07 推開，01:12:15 退出店外，01:12:40 報警。\n推開後 8 秒就離開、33 秒內報警，沒有追擊——防衛沒有過當。'],
+         ['med7', 'bottle7', 'cb_m7b', '推理：先動手的是喝醉的人', '鄒建良就醫時有明顯酒味，酒瓶上驗出他的指紋。\n拿酒瓶攻擊的是他。']]
+  };
+  const ALLCB = Object.values(COMBO).reduce((n, a) => n + a.length, 0);
+  for (const c of CASES) for (const [, , k, n, d] of (COMBO[c.id] || [])) c.ev[k] = { n, i: 'doc', d };
+  ACH.push(['combo1', '🔍', '靈光一閃', '第一次用組合推理找到線索'], ['comboAll', '🕵️', '推理家', `找到全部 ${ALLCB} 個組合推理`]);
+
+  const css = `
+.fx3cb{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0 0}
+.fx3cb .btn{flex:0 1 auto}
+#evs.fx3pick .ev{outline:1px dashed rgba(208,165,76,.5)}
+#evs .ev.fx3sel{outline:2px solid #6fb3ff;box-shadow:0 0 12px rgba(111,179,255,.6)}
+.fx3hint{font-size:13px;color:#d0a54c;letter-spacing:.05em}
+.ev.fx3new{animation:fx3glow 1.2s ease-in-out 3}
+@keyframes fx3glow{50%{box-shadow:0 0 18px rgba(111,179,255,.9)}}
+.fx3timer{position:absolute;left:0;right:0;bottom:-3px;height:3px;background:rgba(0,0,0,.35)}
+.fx3timer i{display:block;height:100%;background:linear-gradient(90deg,#d0a54c,#f3d48a);transition:width .25s linear}
+.fx3timer.low i{background:linear-gradient(90deg,#c0202a,#ff5a5a);animation:fx3blink .5s infinite alternate}
+@keyframes fx3blink{to{opacity:.55}}
+.xbar .fx3sec{font-variant-numeric:tabular-nums;margin-left:auto;margin-right:10px;font-weight:700}
+.xbar .fx3sec.low{color:#ff6a6a}
+`;
+  const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
+
+  const sheet = $('modal').querySelector('.sheet'), row = $('mPresent').parentElement;
+  const bar = document.createElement('div'); bar.className = 'fx3cb';
+  bar.innerHTML = '<button class="btn" type="button" id="fx3Combo">🔍 組合推理</button><span class="fx3hint" id="fx3Hint"></span>';
+  row.parentElement.insertBefore(bar, row);
+  let picking = false, picks = [];
+  const hintEl = $('fx3Hint'), cbBtn = $('fx3Combo');
+  function setPick(on) {
+    picking = on; picks = [];
+    $('evs').classList.toggle('fx3pick', on);
+    cbBtn.textContent = on ? '取消組合' : '🔍 組合推理';
+    hintEl.textContent = on ? '選兩件你覺得有關聯的證物' : (COMBO[C && C.id] ? `這個案件還有 ${COMBO[C.id].filter(x => !G.ev.includes(x[2])).length} 個推理可以找` : '');
+    markPicks();
+  }
+  function markPicks() { for (const b of $('evs').querySelectorAll('.ev')) b.classList.toggle('fx3sel', picks.includes(b.dataset.id)); }
+  cbBtn.onclick = () => setPick(!picking);
+  // 組合模式時，點證物＝選取（攔在原本的 click 之前）
+  $('evs').addEventListener('click', e => {
+    if (!picking) return;
+    const b = e.target.closest('.ev'); if (!b) return;
+    e.stopImmediatePropagation();
+    const id = b.dataset.id;
+    picks = picks.includes(id) ? picks.filter(x => x !== id) : picks.concat(id).slice(-2);
+    selEv = id; renderEv(); markPicks();
+    if (picks.length === 2) tryCombo(picks[0], picks[1]);
+  }, true);
+  function tryCombo(a, b) {
+    const hit = (COMBO[C.id] || []).find(x => (x[0] === a && x[1] === b) || (x[0] === b && x[1] === a));
+    setTimeout(() => {
+      if (!hit) { sfx.bad && sfx.bad(); hintEl.textContent = '這兩件證物看不出關聯……換個組合試試。'; picks = []; markPicks(); return; }
+      if (G.ev.includes(hit[2])) { hintEl.textContent = '這個推理已經找到了。'; picks = []; markPicks(); return; }
+      G.ev.push(hit[2]); G.score = (G.score || 0) + 300; sfx.get && sfx.get();
+      P.cb = P.cb || []; if (!P.cb.includes(C.id + ':' + hit[2])) { P.cb.push(C.id + ':' + hit[2]); saveP(); }
+      unlock('combo1'); if (P.cb.length >= ALLCB) unlock('comboAll');
+      selEv = hit[2]; setPick(false); renderEv();
+      const nb = $('evs').querySelector(`.ev[data-id="${hit[2]}"]`); if (nb) nb.classList.add('fx3new');
+      hintEl.textContent = '推理成功！＋300 分';
+      if (window.__fx2) try { __fx2.cardFx(hit[2]); } catch (e) { }
+    }, 150);
+  }
+  { const _o = openEv; openEv = function () { _o(); setPick(false); cbBtn.hidden = !COMBO[C && C.id]; }; }
+  { const _c = closeEv; closeEv = function () { setPick(false); _c(); }; }
+  $('mClose').onclick = closeEv;
+
+  /* ---------- ② 限時追擊（最後一場詰問） ---------- */
+  const TIMER_ON = Q.get('timer') !== '0';
+  let tLeft = 0, tNode = null, tLast = 0, tBeat = 0;
+  const xbar = $('xbar'), tb = document.createElement('div'); tb.className = 'fx3timer'; tb.innerHTML = '<i></i>'; tb.hidden = true; xbar.appendChild(tb);
+  const sec = document.createElement('span'); sec.className = 'fx3sec'; sec.hidden = true; xbar.insertBefore(sec, $('dots'));
+  const lastCross = c => { let k = null; for (const [key, n] of Object.entries(c.n)) if (n.cross) k = key; return k; };
+  { const _g = go; go = function (node) {
+      const r = _g(node);
+      try { if (TIMER_ON && C.n[node] && C.n[node].cross && node === lastCross(C) && tNode !== C.id + node) { tNode = C.id + node; tLeft = 100; } } catch (e) { }
+      return r;
+    }; }
+  { const _s = startCase; startCase = function (i) { tNode = null; tLeft = 0; return _s(i); }; }
+  function tick() {
+    const now = performance.now();
+    const dt = Math.min(.25, (now - tLast) / 1000); tLast = now;
+    const active = tLeft > 0 && typeof mode !== 'undefined' && mode === 'cross' && !typing && $('modal').hidden && cur && tNode === (C && C.id) + Object.keys(C.n).find(k => C.n[k] === cur);
+    tb.hidden = sec.hidden = !(tLeft > 0 && mode === 'cross');
+    if (!active) return;
+    tLeft -= dt;
+    const low = tLeft < 20;
+    tb.firstChild.style.width = Math.max(0, tLeft / 100 * 100) + '%'; tb.classList.toggle('low', low);
+    sec.textContent = '⏱ ' + Math.max(0, Math.ceil(tLeft)); sec.classList.toggle('low', low);
+    if (low && now - tBeat > 900) { tBeat = now; sfx.tick && sfx.tick(); }
+    if (tLeft <= 0) {
+      tLeft = 60;
+      runSeq([{ c: 'judge', m: 'angry', t: '辯方！本庭不能一直等下去。請立刻提出你的主張！', shake: 1 }, { penalty: 1 }], () => showStatement());
+    }
+  }
+  tLast = performance.now(); setInterval(tick, 200);
+  { const _x = showStatement; showStatement = function (first) { const r = _x(first); try { if (tLeft > 0 && tNode && tNode.endsWith(Object.keys(C.n).find(k => C.n[k] === cur))) $('xtitle').textContent = '⚡ 追擊　' + cur.title; } catch (e) { } return r; }; }
+
+  /* ---------- ③ 錯誤出示的反應 ---------- */
+  const pick = a => a[Math.floor(Math.random() * a.length)];
+  const W_WIT = ['呃……這跟我剛剛說的，有什麼關係嗎？', '……你拿這個出來是想說什麼？', '我不懂律師的意思。這東西跟我的證詞無關吧？', '（證人一臉困惑地看著證物）'];
+  const W_PROS = ['辯方似乎只是把手上的東西隨便丟出來。', '如果辯方只是在碰運氣，請不要浪費本庭的時間。', '哼，這份證物恰好證明了證人說的是實話。', '辯方連自己的證物都沒看懂嗎？'];
+  const W_JUDGE = ['辯方，請慎重。本庭的耐心是有限度的。', '這份證物說明不了任何矛盾。辯方，請想清楚再提出。', '辯方，下不為例。'];
+  let wrongKey = '', wrongN = 0;
+  function wrongLines(w) {
+    const key = (C && C.id) + ':' + (cur && cur.title) + ':' + stmt;
+    wrongN = key === wrongKey ? wrongN + 1 : 1; wrongKey = key;
+    const lines = [
+      { banner: '異議！' },
+      { c: 'zhou', m: 'angry', t: '證人！這份證物和你的證詞互相矛盾！' },
+      { c: w, m: pick(['normal', 'smug', 'normal']), t: pick(W_WIT) },
+      { c: 'pros', m: 'smug', t: pick(W_PROS) },
+      { c: 'judge', m: 'angry', t: pick(W_JUDGE), shake: 1 },
+      { penalty: 1 }
+    ];
+    if (wrongN >= 2 && !(G && G.chal)) lines.push({ c: 'an', m: 'think', t: pick(['律師……要不要先「追問」每一句，聽聽證人怎麼補充？', '律師，先別急著出示。我們把證詞一句一句追問看看，說不定哪裡會露出破綻。', '這句可能不是重點……換一句證詞找找看？']) });
+    return lines;
+  }
+  // WRONG 是 const，改攔 runSeq：認出原本的出示錯誤台詞就換成新版
+  { const _r = runSeq; runSeq = function (steps, done) {
+      if (Array.isArray(steps) && steps[1] && steps[1].t === '證人！這份證物和你的證詞互相矛盾！' && steps.some(x => x.penalty) && cur) steps = wrongLines(cur.w);
+      return _r(steps, done);
+    }; }
+  window.__fx3 = { COMBO, ALLCB, t: () => [tLeft, tNode, mode, !!typing, $("modal").hidden] };
+})();
+
+</script>
+<!--/FX3-->
 
 </html>
